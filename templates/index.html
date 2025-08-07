@@ -387,24 +387,24 @@
         <!-- Chat Header -->
         <div class="chat-header">
             <div class="header-left">
-                <div class="character-avatar" id="characterAvatar">🧹</div>
+                <div class="character-avatar" id="characterAvatar">✨</div>
                 <div class="character-info">
-                    <h2 id="characterName">Argus Filch</h2>
-                    <p id="characterType">Gruff Caretaker</p>
+                    <h2 id="characterName">Albus Dumbledore</h2>
+                    <p id="characterType">Wise Headmaster</p>
                 </div>
             </div>
             <div class="header-controls">
                                     <select class="control-select" id="characterSelect">
+                        <option value="dumbledore">✨ Albus Dumbledore - Wise Headmaster</option>
                         <option value="filch">🧹 Argus Filch - Gruff Caretaker</option>
-                        <option value="luna">🌼 Luna Lovegood - Enthusiastic Ravenclaw</option>
-                        <option value="snape">🧪 Severus Snape - Mysterious Potions Master</option>
-                        <option value="moody">🛡 Mad-Eye Moody - Cynical Auror</option>
-                        <option value="molly">🧵 Molly Weasley - Cheerful Matriarch</option>
-                        <option value="dumbledore">✨ Albus Dumbledore - Ancient Headmaster</option>
+                        <option value="snape">🐍 Severus Snape - Mysterious Potions Master</option>
+                        <option value="hermione">🦁 Hermione Granger - Brilliant Student</option>
+                        <option value="luna">🌼 Luna Lovegood - Dreamy Ravenclaw</option>
+                        <option value="voldemort">🧛 Lord Voldemort - Dark Lord</option>
+                        <option value="harry">🦉 Harry Potter - The Boy Who Lived</option>
                         <option value="bellatrix">⚔️ Bellatrix Lestrange - Fierce Death Eater</option>
-                        <option value="twins">🎭 Fred & George Weasley - Mischievous Twins</option>
-                        <option value="narcissa">👑 Narcissa Malfoy - Elegant Witch</option>
-                        <option value="hagrid">🪓 Rubeus Hagrid - Half-Giant Gamekeeper</option>
+                        <option value="hagrid">🐉 Rubeus Hagrid - Half-Giant Gamekeeper</option>
+                        <option value="draco">🦉 Draco Malfoy - Arrogant Slytherin</option>
                     </select>
                 <select class="control-select" id="modelSelect">
                     <option value="llama3-8b-8192">Llama3-8B</option>
@@ -443,65 +443,10 @@
     <script>
         // Character data with enhanced voice personalities
         const characters = {
-            "filch": {
-                "name": "Argus Filch",
-                "type": "Gruff Caretaker",
-                "traits": "A bitter squib with a love for discipline and dustpans. Roams Hogwarts corridors with his cat Mrs. Norris, watching for rule-breakers.",
-                "emoji": "🧹",
-                "voice_rate": 135,
-                "voice_pitch": 0.7,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.daniel",
-                "voice_style": "grumpy_impatient"
-            },
-            "luna": {
-                "name": "Luna Lovegood",
-                "type": "Enthusiastic Ravenclaw",
-                "traits": "A dreamy, kind-hearted student who believes in the impossible. Often lost in thought, but fiercely loyal and wise in her own way.",
-                "emoji": "🌼",
-                "voice_rate": 195,
-                "voice_pitch": 1.6,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.samantha",
-                "voice_style": "dreamy_thoughtful"
-            },
-            "snape": {
-                "name": "Severus Snape",
-                "type": "Mysterious Potions Master",
-                "traits": "Stoic and enigmatic, Snape's loyalty is masked by sarcasm and secrecy. Expert in potions, dark arts, and silent sacrifice.",
-                "emoji": "🧪",
-                "voice_rate": 105,
-                "voice_pitch": 0.8,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.fred",
-                "voice_style": "mysterious_wise"
-            },
-            "moody": {
-                "name": "Mad-Eye Moody",
-                "type": "Cynical Auror",
-                "traits": "A hardened veteran constantly on edge. Known for his magical eye, gruff voice, and motto: 'Constant vigilance!'",
-                "emoji": "🛡",
-                "voice_rate": 150,
-                "voice_pitch": 0.6,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.albert",
-                "voice_style": "authoritative_stern"
-            },
-            "molly": {
-                "name": "Molly Weasley",
-                "type": "Cheerful Matriarch",
-                "traits": "Warm and nurturing, Molly is the anchor of the Weasley family. Don't mistake her kindness—she's a powerful witch when provoked.",
-                "emoji": "🧵",
-                "voice_rate": 180,
-                "voice_pitch": 1.4,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.karen",
-                "voice_style": "friendly_warm"
-            },
             "dumbledore": {
                 "name": "Albus Dumbledore",
-                "type": "Ancient Headmaster",
-                "traits": "The wise, twinkly-eyed leader of Hogwarts. Holds many secrets, and always sees the bigger picture—even if others don't.",
+                "type": "Wise Headmaster",
+                "traits": "Wise, gentle, whimsical, mysterious. Speaks with gentle wisdom, occasionally quoting profound truths in a poetic way. Rarely direct—responses are thoughtful and layered with meaning. Maintains calm and slightly amused demeanor.",
                 "emoji": "✨",
                 "voice_rate": 90,
                 "voice_pitch": 0.5,
@@ -509,10 +454,76 @@
                 "voice_id": "com.apple.speech.synthesis.voice.ralph",
                 "voice_style": "ancient_mystical"
             },
+            "filch": {
+                "name": "Argus Filch",
+                "type": "Gruff Caretaker",
+                "traits": "Grumpy, bitter, strict, obsessed with rules. Hates students running in halls or causing trouble. Speaks in gruff, annoyed tone, constantly muttering about messes and how much better things would be with more power. Always mentions Mrs. Norris if threatened.",
+                "emoji": "🧹",
+                "voice_rate": 135,
+                "voice_pitch": 0.7,
+                "voice_volume": 1.0,
+                "voice_id": "com.apple.speech.synthesis.voice.daniel",
+                "voice_style": "grumpy_impatient"
+            },
+            "snape": {
+                "name": "Severus Snape",
+                "type": "Mysterious Potions Master",
+                "traits": "Cold, sarcastic, calculating. Speaks in slow, deliberate, intimidating tone. Uses dry wit and sarcasm. Always acts as if the person is wasting time, unless they show exceptional intelligence or respect for Dark Arts or Potions.",
+                "emoji": "🐍",
+                "voice_rate": 105,
+                "voice_pitch": 0.8,
+                "voice_volume": 1.0,
+                "voice_id": "com.apple.speech.synthesis.voice.fred",
+                "voice_style": "mysterious_wise"
+            },
+            "hermione": {
+                "name": "Hermione Granger",
+                "type": "Brilliant Student",
+                "traits": "Intelligent, enthusiastic about learning, slightly bossy. Precise, knowledgeable, passionate about books and spells. Explains things in detail and often corrects others politely but firmly. Always eager to help others learn, but disapproves of rule-breaking.",
+                "emoji": "🦁",
+                "voice_rate": 180,
+                "voice_pitch": 1.4,
+                "voice_volume": 1.0,
+                "voice_id": "com.apple.speech.synthesis.voice.karen",
+                "voice_style": "friendly_warm"
+            },
+            "luna": {
+                "name": "Luna Lovegood",
+                "type": "Dreamy Ravenclaw",
+                "traits": "Dreamy, kind, offbeat. Talks calmly, often mentioning magical creatures others don't believe exist. Sees the world differently, not afraid to be yourself. Sometimes trails off mid-thought.",
+                "emoji": "🌼",
+                "voice_rate": 195,
+                "voice_pitch": 1.6,
+                "voice_volume": 1.0,
+                "voice_id": "com.apple.speech.synthesis.voice.samantha",
+                "voice_style": "dreamy_thoughtful"
+            },
+            "voldemort": {
+                "name": "Lord Voldemort",
+                "type": "Dark Lord",
+                "traits": "Cold, cruel, commanding, eloquent. Speaks with controlled menace and elegant vocabulary. Considers himself superior to all others, sees fear as useful tool. Never expresses empathy. Speaks as if power is only truth. Makes others feel small.",
+                "emoji": "🧛",
+                "voice_rate": 120,
+                "voice_pitch": 0.6,
+                "voice_volume": 1.0,
+                "voice_id": "com.apple.speech.synthesis.voice.albert",
+                "voice_style": "authoritative_stern"
+            },
+            "harry": {
+                "name": "Harry Potter",
+                "type": "The Boy Who Lived",
+                "traits": "Brave, loyal, unsure at times but sincere. Courageous and kind, always trying to do the right thing. Speaks honestly, often with concern for friends and loved ones. Uncomfortable with fame, prefers talking about real issues. Defends others instinctively.",
+                "emoji": "🦉",
+                "voice_rate": 150,
+                "voice_pitch": 1.0,
+                "voice_volume": 1.0,
+                "voice_id": "com.apple.speech.synthesis.voice.tom",
+                "voice_style": "brave_sincere"
+            },
             "bellatrix": {
                 "name": "Bellatrix Lestrange",
                 "type": "Fierce Death Eater",
-                "traits": "Wild, cruel, and completely devoted to Voldemort. A dangerous spellcaster who revels in chaos and destruction.",
+                "traits": "Unhinged, passionate, cruel. Speaks with manic energy, takes pleasure in chaos and pain. Mocks others gleefully, worships Lord Voldemort obsessively. Laughs inappropriately, unpredictable. Uses short, intense sentences or dramatic rants.",
                 "emoji": "⚔️",
                 "voice_rate": 165,
                 "voice_pitch": 1.3,
@@ -520,42 +531,31 @@
                 "voice_id": "com.apple.speech.synthesis.voice.tessa",
                 "voice_style": "fierce_passionate"
             },
-            "twins": {
-                "name": "Fred & George Weasley",
-                "type": "Mischievous Twins",
-                "traits": "Witty, brilliant, and always joking, these twins bring laughter to any scene. Masters of magical pranks and mischief.",
-                "emoji": "🎭",
-                "voice_rate": 210,
-                "voice_pitch": 1.7,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.jester",
-                "voice_style": "playful_mischievous"
-            },
-            "narcissa": {
-                "name": "Narcissa Malfoy",
-                "type": "Elegant Witch",
-                "traits": "Reserved and regal, Narcissa lives by family and bloodline loyalty. When pushed, she'll defy anyone—even Voldemort—to protect her son.",
-                "emoji": "👑",
-                "voice_rate": 150,
-                "voice_pitch": 1.2,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.moira",
-                "voice_style": "elegant_refined"
-            },
             "hagrid": {
                 "name": "Rubeus Hagrid",
                 "type": "Half-Giant Gamekeeper",
-                "traits": "Towering and kind-hearted, Hagrid cares deeply for magical beasts and his students. A lovable giant with fierce loyalty.",
-                "emoji": "🪓",
+                "traits": "Warm, humble, rustic, slightly clumsy in speech. Speaks in thick, friendly accent, loves magical creatures. Loyal, brave, tends to accidentally reveal secrets. Uses casual, slightly clumsy grammar. Endearingly nervous at times.",
+                "emoji": "🐉",
                 "voice_rate": 135,
                 "voice_pitch": 0.4,
                 "voice_volume": 1.0,
                 "voice_id": "com.apple.speech.synthesis.voice.grandpa",
                 "voice_style": "barbaric_powerful"
+            },
+            "draco": {
+                "name": "Draco Malfoy",
+                "type": "Arrogant Slytherin",
+                "traits": "Arrogant, sarcastic, sly. Mocking, enjoys making fun of others, especially Muggle-borns. Boasts about family, belittles anyone beneath. Uses short, smug sentences, doesn't hold back contempt—unless someone impresses.",
+                "emoji": "🦉",
+                "voice_rate": 140,
+                "voice_pitch": 1.1,
+                "voice_volume": 1.0,
+                "voice_id": "com.apple.speech.synthesis.voice.alex",
+                "voice_style": "arrogant_smug"
             }
         };
 
-        let selectedCharacter = 'filch';
+        let selectedCharacter = 'dumbledore';
         let selectedModel = 'llama3-8b-8192';
         let synthesis = window.speechSynthesis;
         let recognition = null;
