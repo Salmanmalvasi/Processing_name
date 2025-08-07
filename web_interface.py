@@ -24,7 +24,9 @@ CHARACTERS = {
         "voice_volume": 0.9,
         "voice_style": "deep_grumpy",
         "voice_accent": "northern",
-        "speech_pattern": "short_blunt"
+        "speech_pattern": "short_blunt",
+        "voice_engine": "male_deep",
+        "voice_id": "en-US-DavisNeural"
     },
     "lira": {
         "name": "Lira",
@@ -36,7 +38,9 @@ CHARACTERS = {
         "voice_volume": 0.95,
         "voice_style": "bubbly_excited",
         "voice_accent": "southern",
-        "speech_pattern": "fast_energetic"
+        "speech_pattern": "fast_energetic",
+        "voice_engine": "female_cheerful",
+        "voice_id": "en-US-JennyNeural"
     },
     "eldrin": {
         "name": "Eldrin",
@@ -48,7 +52,9 @@ CHARACTERS = {
         "voice_volume": 0.75,
         "voice_style": "mysterious_whisper",
         "voice_accent": "ancient",
-        "speech_pattern": "slow_mystical"
+        "speech_pattern": "slow_mystical",
+        "voice_engine": "male_wise",
+        "voice_id": "en-US-TonyNeural"
     },
     "garrick": {
         "name": "Garrick",
@@ -60,7 +66,9 @@ CHARACTERS = {
         "voice_volume": 0.9,
         "voice_style": "authoritative_stern",
         "voice_accent": "military",
-        "speech_pattern": "commanding_direct"
+        "speech_pattern": "commanding_direct",
+        "voice_engine": "male_authoritative",
+        "voice_id": "en-US-GuyNeural"
     },
     "elara": {
         "name": "Elara",
@@ -72,7 +80,9 @@ CHARACTERS = {
         "voice_volume": 0.9,
         "voice_style": "friendly_warm",
         "voice_accent": "merchant",
-        "speech_pattern": "welcoming_helpful"
+        "speech_pattern": "welcoming_helpful",
+        "voice_engine": "female_warm",
+        "voice_id": "en-US-AriaNeural"
     },
     "thorin": {
         "name": "Thorin",
@@ -84,7 +94,9 @@ CHARACTERS = {
         "voice_volume": 0.7,
         "voice_style": "ancient_mystical",
         "voice_accent": "arcane",
-        "speech_pattern": "ancient_wise"
+        "speech_pattern": "ancient_wise",
+        "voice_engine": "male_ancient",
+        "voice_id": "en-US-BrianNeural"
     },
     "zara": {
         "name": "Zara",
@@ -96,7 +108,9 @@ CHARACTERS = {
         "voice_volume": 0.95,
         "voice_style": "fierce_passionate",
         "voice_accent": "warrior",
-        "speech_pattern": "bold_confident"
+        "speech_pattern": "bold_confident",
+        "voice_engine": "female_strong",
+        "voice_id": "en-US-SaraNeural"
     },
     "merlin": {
         "name": "Merlin",
@@ -108,7 +122,9 @@ CHARACTERS = {
         "voice_volume": 0.9,
         "voice_style": "playful_mischievous",
         "voice_accent": "trickster",
-        "speech_pattern": "quick_witty"
+        "speech_pattern": "quick_witty",
+        "voice_engine": "male_playful",
+        "voice_id": "en-US-RyanNeural"
     },
     "seraphina": {
         "name": "Seraphina",
@@ -120,7 +136,9 @@ CHARACTERS = {
         "voice_volume": 0.85,
         "voice_style": "elegant_refined",
         "voice_accent": "noble",
-        "speech_pattern": "graceful_formal"
+        "speech_pattern": "graceful_formal",
+        "voice_engine": "female_elegant",
+        "voice_id": "en-US-NaomiNeural"
     },
     "grommash": {
         "name": "Grommash",
@@ -132,7 +150,9 @@ CHARACTERS = {
         "voice_volume": 1.0,
         "voice_style": "barbaric_powerful",
         "voice_accent": "tribal",
-        "speech_pattern": "loud_authoritative"
+        "speech_pattern": "loud_authoritative",
+        "voice_engine": "male_powerful",
+        "voice_id": "en-US-EricNeural"
     }
 }
 
@@ -247,6 +267,63 @@ def get_characters():
 def get_models():
     """Get all available models"""
     return jsonify(MODELS)
+
+@app.route('/api/voices')
+def get_voices():
+    """Get available voice engines and voice information"""
+    voice_engines = {
+        "male_deep": {
+            "name": "Deep Male Voice",
+            "description": "Deep, authoritative male voice",
+            "examples": ["en-US-DavisNeural", "en-US-GuyNeural"]
+        },
+        "female_cheerful": {
+            "name": "Cheerful Female Voice", 
+            "description": "Bright, energetic female voice",
+            "examples": ["en-US-JennyNeural", "en-US-AriaNeural"]
+        },
+        "male_wise": {
+            "name": "Wise Male Voice",
+            "description": "Mature, thoughtful male voice", 
+            "examples": ["en-US-TonyNeural", "en-US-BrianNeural"]
+        },
+        "male_authoritative": {
+            "name": "Authoritative Male Voice",
+            "description": "Commanding, military-style voice",
+            "examples": ["en-US-GuyNeural", "en-US-EricNeural"]
+        },
+        "female_warm": {
+            "name": "Warm Female Voice",
+            "description": "Friendly, welcoming female voice",
+            "examples": ["en-US-AriaNeural", "en-US-NaomiNeural"]
+        },
+        "male_ancient": {
+            "name": "Ancient Male Voice", 
+            "description": "Old, mystical male voice",
+            "examples": ["en-US-BrianNeural", "en-US-TonyNeural"]
+        },
+        "female_strong": {
+            "name": "Strong Female Voice",
+            "description": "Powerful, confident female voice",
+            "examples": ["en-US-SaraNeural", "en-US-JennyNeural"]
+        },
+        "male_playful": {
+            "name": "Playful Male Voice",
+            "description": "Fun, energetic male voice",
+            "examples": ["en-US-RyanNeural", "en-US-DavisNeural"]
+        },
+        "female_elegant": {
+            "name": "Elegant Female Voice",
+            "description": "Refined, sophisticated female voice", 
+            "examples": ["en-US-NaomiNeural", "en-US-AriaNeural"]
+        },
+        "male_powerful": {
+            "name": "Powerful Male Voice",
+            "description": "Strong, commanding male voice",
+            "examples": ["en-US-EricNeural", "en-US-GuyNeural"]
+        }
+    }
+    return jsonify(voice_engines)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080) 

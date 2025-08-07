@@ -999,6 +999,41 @@
                     utterance.volume = characterData.voice_volume;
                 }
 
+                // Try to set specific voice for the character
+                if (characterData && characterData.voice_id) {
+                    const voices = synthesis.getVoices();
+                    const targetVoice = voices.find(voice => 
+                        voice.name.includes(characterData.voice_id) || 
+                        voice.name.includes(characterData.voice_engine)
+                    );
+                    
+                    if (targetVoice) {
+                        utterance.voice = targetVoice;
+                        console.log(`Using voice: ${targetVoice.name} for ${characterData.name}`);
+                    } else {
+                        // Fallback: select voice based on engine type
+                        const engineType = characterData.voice_engine;
+                        let fallbackVoice = null;
+                        
+                        if (engineType.includes('male')) {
+                            fallbackVoice = voices.find(voice => 
+                                voice.lang.startsWith('en') && 
+                                voice.name.toLowerCase().includes('male')
+                            );
+                        } else if (engineType.includes('female')) {
+                            fallbackVoice = voices.find(voice => 
+                                voice.lang.startsWith('en') && 
+                                voice.name.toLowerCase().includes('female')
+                            );
+                        }
+                        
+                        if (fallbackVoice) {
+                            utterance.voice = fallbackVoice;
+                            console.log(`Using fallback voice: ${fallbackVoice.name} for ${characterData.name}`);
+                        }
+                    }
+                }
+
                 // Apply voice style effects based on character
                 if (characterData && characterData.voice_style) {
                     switch(characterData.voice_style) {
