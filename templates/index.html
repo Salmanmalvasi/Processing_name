@@ -613,6 +613,20 @@
     </div>
 
     <script>
+        // Character data from Flask template
+        const characters = {
+            {% for key, character in characters.items() %}
+            "{{ key }}": {
+                "name": "{{ character.name }}",
+                "type": "{{ character.type }}",
+                "traits": "{{ character.traits }}",
+                "emoji": "{{ character.emoji }}",
+                "voice_rate": {{ character.voice_rate }},
+                "voice_pitch": {{ character.voice_pitch }}
+            }{% if not loop.last %},{% endif %}
+            {% endfor %}
+        };
+
         let selectedCharacter = 'drogun';
         let selectedModel = 'llama3-8b-8192';
         let isListening = false;
