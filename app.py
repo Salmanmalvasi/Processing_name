@@ -156,6 +156,15 @@ def index():
     """Serve the main chat interface"""
     return render_template('index.html')
 
+@app.route('/test')
+def test():
+    """Simple test endpoint"""
+    return jsonify({
+        "status": "success",
+        "message": "AI NPC Dialogue Generator is working!",
+        "characters": len(CHARACTERS)
+    })
+
 @app.route('/health')
 def health():
     """Health check endpoint for Vercel"""
@@ -231,7 +240,7 @@ def not_found(error):
     return jsonify({
         "error": "Not found",
         "message": "The requested resource was not found",
-        "available_endpoints": ["/", "/health", "/api/status", "/chat", "/api/characters"]
+        "available_endpoints": ["/", "/test", "/health", "/api/status", "/chat", "/api/characters"]
     }), 404
 
 @app.errorhandler(500)
