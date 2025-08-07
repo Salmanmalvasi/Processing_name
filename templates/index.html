@@ -865,7 +865,9 @@
                 "voice_rate": {{ character.voice_rate }},
                 "voice_pitch": {{ character.voice_pitch }},
                 "voice_volume": {{ character.voice_volume }},
-                "voice_style": "{{ character.voice_style }}"
+                "voice_style": "{{ character.voice_style }}",
+                "voice_accent": "{{ character.voice_accent }}",
+                "speech_pattern": "{{ character.speech_pattern }}"
             }{% if not loop.last %},{% endif %}
             {% endfor %}
         };
@@ -1001,36 +1003,131 @@
                 if (characterData && characterData.voice_style) {
                     switch(characterData.voice_style) {
                         case 'deep_grumpy':
-                            utterance.pitch = Math.max(0.5, utterance.pitch - 0.2);
-                            utterance.rate = Math.max(0.5, utterance.rate - 0.2);
+                            utterance.pitch = Math.max(0.4, utterance.pitch - 0.3);
+                            utterance.rate = Math.max(0.4, utterance.rate - 0.3);
                             break;
                         case 'bubbly_excited':
-                            utterance.pitch = Math.min(2.0, utterance.pitch + 0.3);
-                            utterance.rate = Math.min(2.0, utterance.rate + 0.3);
+                            utterance.pitch = Math.min(2.2, utterance.pitch + 0.4);
+                            utterance.rate = Math.min(2.2, utterance.rate + 0.4);
                             break;
                         case 'mysterious_whisper':
-                            utterance.volume = Math.max(0.3, utterance.volume - 0.3);
-                            utterance.rate = Math.max(0.3, utterance.rate - 0.4);
+                            utterance.volume = Math.max(0.2, utterance.volume - 0.4);
+                            utterance.rate = Math.max(0.2, utterance.rate - 0.5);
                             break;
                         case 'authoritative_stern':
-                            utterance.pitch = Math.max(0.6, utterance.pitch - 0.1);
-                            utterance.rate = Math.max(0.7, utterance.rate - 0.1);
+                            utterance.pitch = Math.max(0.5, utterance.pitch - 0.2);
+                            utterance.rate = Math.max(0.6, utterance.rate - 0.2);
                             break;
                         case 'friendly_warm':
-                            utterance.pitch = Math.min(1.5, utterance.pitch + 0.2);
-                            utterance.rate = Math.min(1.8, utterance.rate + 0.2);
+                            utterance.pitch = Math.min(1.6, utterance.pitch + 0.3);
+                            utterance.rate = Math.min(1.9, utterance.rate + 0.3);
                             break;
                         case 'ancient_mystical':
-                            utterance.pitch = Math.max(0.4, utterance.pitch - 0.3);
-                            utterance.rate = Math.max(0.3, utterance.rate - 0.5);
+                            utterance.pitch = Math.max(0.3, utterance.pitch - 0.4);
+                            utterance.rate = Math.max(0.2, utterance.rate - 0.6);
                             break;
                         case 'fierce_passionate':
-                            utterance.pitch = Math.min(1.8, utterance.pitch + 0.4);
-                            utterance.rate = Math.min(2.0, utterance.rate + 0.4);
+                            utterance.pitch = Math.min(1.9, utterance.pitch + 0.5);
+                            utterance.rate = Math.min(2.1, utterance.rate + 0.5);
                             break;
                         case 'playful_mischievous':
-                            utterance.pitch = Math.min(2.0, utterance.pitch + 0.5);
-                            utterance.rate = Math.min(2.2, utterance.rate + 0.5);
+                            utterance.pitch = Math.min(2.2, utterance.pitch + 0.6);
+                            utterance.rate = Math.min(2.3, utterance.rate + 0.6);
+                            break;
+                        case 'elegant_refined':
+                            utterance.pitch = Math.min(1.4, utterance.pitch + 0.2);
+                            utterance.rate = Math.min(1.6, utterance.rate + 0.1);
+                            break;
+                        case 'barbaric_powerful':
+                            utterance.pitch = Math.max(0.3, utterance.pitch - 0.5);
+                            utterance.rate = Math.max(0.5, utterance.rate - 0.3);
+                            utterance.volume = Math.min(1.0, utterance.volume + 0.1);
+                            break;
+                    }
+                }
+
+                // Apply accent effects
+                if (characterData && characterData.voice_accent) {
+                    switch(characterData.voice_accent) {
+                        case 'northern':
+                            utterance.pitch = Math.max(0.4, utterance.pitch - 0.1);
+                            utterance.rate = Math.max(0.7, utterance.rate - 0.1);
+                            break;
+                        case 'southern':
+                            utterance.pitch = Math.min(1.8, utterance.pitch + 0.2);
+                            utterance.rate = Math.min(1.9, utterance.rate + 0.2);
+                            break;
+                        case 'ancient':
+                            utterance.pitch = Math.max(0.3, utterance.pitch - 0.3);
+                            utterance.rate = Math.max(0.3, utterance.rate - 0.4);
+                            break;
+                        case 'military':
+                            utterance.pitch = Math.max(0.5, utterance.pitch - 0.2);
+                            utterance.rate = Math.max(0.6, utterance.rate - 0.2);
+                            break;
+                        case 'merchant':
+                            utterance.pitch = Math.min(1.5, utterance.pitch + 0.2);
+                            utterance.rate = Math.min(1.7, utterance.rate + 0.2);
+                            break;
+                        case 'arcane':
+                            utterance.pitch = Math.max(0.2, utterance.pitch - 0.4);
+                            utterance.rate = Math.max(0.2, utterance.rate - 0.5);
+                            break;
+                        case 'warrior':
+                            utterance.pitch = Math.min(1.8, utterance.pitch + 0.3);
+                            utterance.rate = Math.min(2.0, utterance.rate + 0.3);
+                            break;
+                        case 'trickster':
+                            utterance.pitch = Math.min(2.1, utterance.pitch + 0.4);
+                            utterance.rate = Math.min(2.2, utterance.rate + 0.4);
+                            break;
+                        case 'noble':
+                            utterance.pitch = Math.min(1.3, utterance.pitch + 0.1);
+                            utterance.rate = Math.min(1.5, utterance.rate + 0.1);
+                            break;
+                        case 'tribal':
+                            utterance.pitch = Math.max(0.2, utterance.pitch - 0.4);
+                            utterance.rate = Math.max(0.4, utterance.rate - 0.3);
+                            utterance.volume = Math.min(1.0, utterance.volume + 0.2);
+                            break;
+                    }
+                }
+
+                // Apply speech pattern effects
+                if (characterData && characterData.speech_pattern) {
+                    switch(characterData.speech_pattern) {
+                        case 'short_blunt':
+                            utterance.rate = Math.max(0.8, utterance.rate - 0.2);
+                            break;
+                        case 'fast_energetic':
+                            utterance.rate = Math.min(2.2, utterance.rate + 0.3);
+                            break;
+                        case 'slow_mystical':
+                            utterance.rate = Math.max(0.3, utterance.rate - 0.4);
+                            break;
+                        case 'commanding_direct':
+                            utterance.rate = Math.max(0.7, utterance.rate - 0.1);
+                            utterance.volume = Math.min(1.0, utterance.volume + 0.1);
+                            break;
+                        case 'welcoming_helpful':
+                            utterance.rate = Math.min(1.8, utterance.rate + 0.2);
+                            break;
+                        case 'ancient_wise':
+                            utterance.rate = Math.max(0.2, utterance.rate - 0.5);
+                            break;
+                        case 'bold_confident':
+                            utterance.rate = Math.min(2.0, utterance.rate + 0.3);
+                            utterance.volume = Math.min(1.0, utterance.volume + 0.1);
+                            break;
+                        case 'quick_witty':
+                            utterance.rate = Math.min(2.3, utterance.rate + 0.4);
+                            break;
+                        case 'graceful_formal':
+                            utterance.rate = Math.min(1.4, utterance.rate + 0.1);
+                            break;
+                        case 'loud_authoritative':
+                            utterance.rate = Math.max(0.5, utterance.rate - 0.2);
+                            utterance.volume = Math.min(1.0, utterance.volume + 0.2);
                             break;
                     }
                 }

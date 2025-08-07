@@ -19,80 +19,120 @@ CHARACTERS = {
         "type": "Gruff Blacksmith",
         "traits": "Gruff, impatient, values hard work, speaks in short sentences",
         "emoji": "⚒️",
-        "voice_rate": 120,
-        "voice_pitch": 0.7,
+        "voice_rate": 110,
+        "voice_pitch": 0.6,
         "voice_volume": 0.9,
-        "voice_style": "deep_grumpy"
+        "voice_style": "deep_grumpy",
+        "voice_accent": "northern",
+        "speech_pattern": "short_blunt"
     },
     "lira": {
         "name": "Lira",
         "type": "Enthusiastic Potion Seller",
         "traits": "Cheerful, talkative, always tries to upsell, uses lots of exclamations",
         "emoji": "🧪",
-        "voice_rate": 180,
-        "voice_pitch": 1.3,
+        "voice_rate": 190,
+        "voice_pitch": 1.4,
         "voice_volume": 0.95,
-        "voice_style": "bubbly_excited"
+        "voice_style": "bubbly_excited",
+        "voice_accent": "southern",
+        "speech_pattern": "fast_energetic"
     },
     "eldrin": {
         "name": "Eldrin",
         "type": "Mysterious Forest Hermit",
         "traits": "Cryptic, wise, speaks in riddles, calm demeanor",
         "emoji": "🌲",
-        "voice_rate": 100,
-        "voice_pitch": 0.8,
-        "voice_volume": 0.85,
-        "voice_style": "mysterious_whisper"
+        "voice_rate": 85,
+        "voice_pitch": 0.7,
+        "voice_volume": 0.75,
+        "voice_style": "mysterious_whisper",
+        "voice_accent": "ancient",
+        "speech_pattern": "slow_mystical"
     },
     "garrick": {
         "name": "Garrick",
         "type": "Cynical City Guard",
         "traits": "Suspicious, direct, doesn't trust easily, speaks with authority",
         "emoji": "🛡️",
-        "voice_rate": 140,
-        "voice_pitch": 0.75,
+        "voice_rate": 130,
+        "voice_pitch": 0.65,
         "voice_volume": 0.9,
-        "voice_style": "authoritative_stern"
+        "voice_style": "authoritative_stern",
+        "voice_accent": "military",
+        "speech_pattern": "commanding_direct"
     },
     "elara": {
         "name": "Elara",
         "type": "Cheerful Shopkeeper",
         "traits": "Friendly, helpful, loves to chat, always positive",
         "emoji": "🏪",
-        "voice_rate": 160,
-        "voice_pitch": 1.2,
+        "voice_rate": 170,
+        "voice_pitch": 1.3,
         "voice_volume": 0.9,
-        "voice_style": "friendly_warm"
+        "voice_style": "friendly_warm",
+        "voice_accent": "merchant",
+        "speech_pattern": "welcoming_helpful"
     },
     "thorin": {
         "name": "Thorin",
         "type": "Ancient Wizard",
         "traits": "Wise, speaks in ancient tongues, mysterious, powerful",
         "emoji": "🔮",
-        "voice_rate": 90,
-        "voice_pitch": 0.6,
-        "voice_volume": 0.8,
-        "voice_style": "ancient_mystical"
+        "voice_rate": 75,
+        "voice_pitch": 0.5,
+        "voice_volume": 0.7,
+        "voice_style": "ancient_mystical",
+        "voice_accent": "arcane",
+        "speech_pattern": "ancient_wise"
     },
     "zara": {
         "name": "Zara",
         "type": "Fierce Warrior",
         "traits": "Bold, confident, speaks with passion, battle-hardened",
         "emoji": "⚔️",
-        "voice_rate": 150,
-        "voice_pitch": 1.1,
+        "voice_rate": 160,
+        "voice_pitch": 1.2,
         "voice_volume": 0.95,
-        "voice_style": "fierce_passionate"
+        "voice_style": "fierce_passionate",
+        "voice_accent": "warrior",
+        "speech_pattern": "bold_confident"
     },
     "merlin": {
         "name": "Merlin",
         "type": "Mischievous Trickster",
         "traits": "Playful, witty, loves jokes, unpredictable",
         "emoji": "🎭",
-        "voice_rate": 170,
-        "voice_pitch": 1.4,
+        "voice_rate": 180,
+        "voice_pitch": 1.5,
         "voice_volume": 0.9,
-        "voice_style": "playful_mischievous"
+        "voice_style": "playful_mischievous",
+        "voice_accent": "trickster",
+        "speech_pattern": "quick_witty"
+    },
+    "seraphina": {
+        "name": "Seraphina",
+        "type": "Elegant Noble",
+        "traits": "Refined, sophisticated, speaks with grace, aristocratic",
+        "emoji": "👑",
+        "voice_rate": 140,
+        "voice_pitch": 1.1,
+        "voice_volume": 0.85,
+        "voice_style": "elegant_refined",
+        "voice_accent": "noble",
+        "speech_pattern": "graceful_formal"
+    },
+    "grommash": {
+        "name": "Grommash",
+        "type": "Barbarian Chief",
+        "traits": "Fierce, loud, speaks with power, tribal leader",
+        "emoji": "🪓",
+        "voice_rate": 120,
+        "voice_pitch": 0.4,
+        "voice_volume": 1.0,
+        "voice_style": "barbaric_powerful",
+        "voice_accent": "tribal",
+        "speech_pattern": "loud_authoritative"
     }
 }
 
