@@ -30,64 +30,64 @@ GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 # Character definitions
 CHARACTERS = {
-    "drogun": {
-        "name": "Drogun",
-        "type": "Gruff Blacksmith",
-        "traits": "Gruff, impatient, values hard work, speaks in short sentences",
-        "emoji": "⚒️"
+    "filch": {
+        "name": "Argus Filch",
+        "type": "Gruff Caretaker",
+        "traits": "A bitter squib with a love for discipline and dustpans. Roams Hogwarts corridors with his cat Mrs. Norris, watching for rule-breakers.",
+        "emoji": "🧹"
     },
-    "lira": {
-        "name": "Lira",
-        "type": "Enthusiastic Potion Seller",
-        "traits": "Cheerful, talkative, always tries to upsell, uses lots of exclamations",
+    "luna": {
+        "name": "Luna Lovegood",
+        "type": "Enthusiastic Ravenclaw",
+        "traits": "A dreamy, kind-hearted student who believes in the impossible. Often lost in thought, but fiercely loyal and wise in her own way.",
+        "emoji": "🌼"
+    },
+    "snape": {
+        "name": "Severus Snape",
+        "type": "Mysterious Potions Master",
+        "traits": "Stoic and enigmatic, Snape's loyalty is masked by sarcasm and secrecy. Expert in potions, dark arts, and silent sacrifice.",
         "emoji": "🧪"
     },
-    "eldrin": {
-        "name": "Eldrin",
-        "type": "Mysterious Forest Hermit",
-        "traits": "Cryptic, wise, speaks in riddles, calm demeanor",
-        "emoji": "🌲"
+    "moody": {
+        "name": "Mad-Eye Moody",
+        "type": "Cynical Auror",
+        "traits": "A hardened veteran constantly on edge. Known for his magical eye, gruff voice, and motto: 'Constant vigilance!'",
+        "emoji": "🛡"
     },
-    "garrick": {
-        "name": "Garrick",
-        "type": "Cynical City Guard",
-        "traits": "Suspicious, direct, doesn't trust easily, speaks with authority",
-        "emoji": "🛡️"
+    "molly": {
+        "name": "Molly Weasley",
+        "type": "Cheerful Matriarch",
+        "traits": "Warm and nurturing, Molly is the anchor of the Weasley family. Don't mistake her kindness—she's a powerful witch when provoked.",
+        "emoji": "🧵"
     },
-    "elara": {
-        "name": "Elara",
-        "type": "Cheerful Shopkeeper",
-        "traits": "Friendly, helpful, loves to chat, always positive",
-        "emoji": "🏪"
+    "dumbledore": {
+        "name": "Albus Dumbledore",
+        "type": "Ancient Headmaster",
+        "traits": "The wise, twinkly-eyed leader of Hogwarts. Holds many secrets, and always sees the bigger picture—even if others don't.",
+        "emoji": "✨"
     },
-    "thorin": {
-        "name": "Thorin",
-        "type": "Ancient Wizard",
-        "traits": "Wise, speaks in ancient tongues, mysterious, powerful",
-        "emoji": "🔮"
-    },
-    "zara": {
-        "name": "Zara",
-        "type": "Fierce Warrior",
-        "traits": "Bold, confident, speaks with passion, battle-hardened",
+    "bellatrix": {
+        "name": "Bellatrix Lestrange",
+        "type": "Fierce Death Eater",
+        "traits": "Wild, cruel, and completely devoted to Voldemort. A dangerous spellcaster who revels in chaos and destruction.",
         "emoji": "⚔️"
     },
-    "merlin": {
-        "name": "Merlin",
-        "type": "Mischievous Trickster",
-        "traits": "Playful, witty, loves jokes, unpredictable",
+    "twins": {
+        "name": "Fred & George Weasley",
+        "type": "Mischievous Twins",
+        "traits": "Witty, brilliant, and always joking, these twins bring laughter to any scene. Masters of magical pranks and mischief.",
         "emoji": "🎭"
     },
-    "seraphina": {
-        "name": "Seraphina",
-        "type": "Elegant Noble",
-        "traits": "Refined, sophisticated, speaks with grace, aristocratic",
+    "narcissa": {
+        "name": "Narcissa Malfoy",
+        "type": "Elegant Witch",
+        "traits": "Reserved and regal, Narcissa lives by family and bloodline loyalty. When pushed, she'll defy anyone—even Voldemort—to protect her son.",
         "emoji": "👑"
     },
-    "grommash": {
-        "name": "Grommash",
-        "type": "Barbarian Chief",
-        "traits": "Fierce, loud, speaks with power, tribal leader",
+    "hagrid": {
+        "name": "Rubeus Hagrid",
+        "type": "Half-Giant Gamekeeper",
+        "traits": "Towering and kind-hearted, Hagrid cares deeply for magical beasts and his students. A lovable giant with fierce loyalty.",
         "emoji": "🪓"
     }
 }
