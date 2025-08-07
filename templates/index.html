@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI NPC Dialogue Generator with Voice Assistant</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>🎭 AI NPC Dialogue Generator - Voice Magic</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,30 +12,46 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --secondary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            --neon-pink: #ff0080;
+            --neon-blue: #00ffff;
+            --neon-green: #00ff00;
+            --neon-purple: #8000ff;
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background: #0a0a0a;
             min-height: 100vh;
-            padding: 20px;
-            color: #333;
+            overflow-x: hidden;
+            color: #fff;
+            position: relative;
+        }
+
+        /* Particle Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
 
         .container {
-            max-width: 1400px;
+            position: relative;
+            z-index: 2;
+            max-width: 1600px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 20px;
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px 30px;
             text-align: center;
+            padding: 40px 0;
             position: relative;
             overflow: hidden;
         }
@@ -47,38 +63,57 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.3;
+            background: var(--primary-gradient);
+            opacity: 0.1;
+            border-radius: 20px;
         }
 
         .header h1 {
-            font-size: 3em;
-            font-weight: 700;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            font-family: 'Orbitron', monospace;
+            font-size: 4em;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue), var(--neon-green), var(--neon-purple));
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(255, 0, 128, 0.5);
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
+            font-size: 1.3em;
+            color: #ccc;
             font-weight: 300;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+            to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
         }
 
         .main-content {
             display: grid;
-            grid-template-columns: 350px 1fr;
-            min-height: 700px;
+            grid-template-columns: 400px 1fr;
+            gap: 30px;
+            margin-top: 30px;
         }
 
         .sidebar {
-            background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
             padding: 30px;
-            border-right: 1px solid rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
+            overflow: hidden;
         }
 
         .sidebar::before {
@@ -87,22 +122,44 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 3px;
+            background: var(--primary-gradient);
+            animation: borderGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
 
         .chat-area {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
-            height: 700px;
-            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+            height: 800px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 0, 128, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         .chat-messages {
             flex: 1;
             padding: 30px;
             overflow-y: auto;
-            background: transparent;
             scroll-behavior: smooth;
         }
 
@@ -111,34 +168,31 @@
         }
 
         .chat-messages::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
         }
 
         .chat-messages::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
+            background: var(--primary-gradient);
             border-radius: 4px;
         }
 
-        .chat-messages::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
-        }
-
         .message {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             display: flex;
             align-items: flex-start;
-            animation: fadeInUp 0.3s ease-out;
+            animation: messageSlide 0.5s ease-out;
+            position: relative;
         }
 
-        @keyframes fadeInUp {
+        @keyframes messageSlide {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px) scale(0.9);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
 
@@ -152,206 +206,258 @@
 
         .message-content {
             max-width: 75%;
-            padding: 16px 20px;
-            border-radius: 20px;
+            padding: 20px 25px;
+            border-radius: 25px;
             word-wrap: break-word;
             position: relative;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .message.user .message-content {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--neon-pink), #ff6b9d);
             color: white;
-            border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 8px;
+            box-shadow: 0 8px 32px rgba(255, 0, 128, 0.3);
         }
 
         .message.bot .message-content {
-            background: white;
-            color: #333;
-            border: 1px solid #e9ecef;
-            border-bottom-left-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-bottom-left-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         .message.system .message-content {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, var(--neon-blue), #4facfe);
             color: white;
             font-size: 0.9em;
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
         .message.error .message-content {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            background: linear-gradient(135deg, #ff4757, #ff3742);
             color: white;
         }
 
         .message-avatar {
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
-            margin: 0 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            background: white;
-            border: 2px solid #e9ecef;
+            font-size: 24px;
+            margin: 0 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .message-avatar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary-gradient);
+            opacity: 0.3;
+            border-radius: 50%;
         }
 
         .message.user .message-avatar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--neon-pink), #ff6b9d);
             border: none;
         }
 
         .chat-input {
-            padding: 25px 30px;
-            background: white;
-            border-top: 1px solid #e9ecef;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
-            gap: 15px;
+            gap: 20px;
             align-items: center;
+            position: relative;
+        }
+
+        .chat-input::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--primary-gradient);
+            opacity: 0.5;
         }
 
         .chat-input input {
             flex: 1;
-            padding: 16px 20px;
-            border: 2px solid #e9ecef;
-            border-radius: 25px;
+            padding: 18px 25px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
             font-size: 16px;
             outline: none;
             transition: all 0.3s ease;
-            background: #f8f9fa;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            backdrop-filter: blur(10px);
+        }
+
+        .chat-input input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .chat-input input:focus {
-            border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.3);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .chat-input button {
-            padding: 16px 28px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 18px 30px;
+            background: var(--primary-gradient);
             color: white;
             border: none;
-            border-radius: 25px;
+            border-radius: 30px;
             cursor: pointer;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-input button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .chat-input button:hover::before {
+            left: 100%;
         }
 
         .chat-input button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .chat-input button:active {
-            transform: translateY(0);
-        }
-
-        .chat-input button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
         }
 
         .voice-controls {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 15px;
+            margin-bottom: 25px;
         }
 
         .voice-btn {
-            padding: 12px 20px;
+            padding: 15px 25px;
             border: none;
-            border-radius: 20px;
+            border-radius: 25px;
             cursor: pointer;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
         }
 
         .voice-btn.primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--primary-gradient);
             color: white;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
         }
 
         .voice-btn.secondary {
-            background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .voice-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
         }
 
         .voice-btn.listening {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            background: linear-gradient(135deg, var(--neon-pink), #ff6b9d);
             animation: pulse 1.5s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(255, 0, 128, 0.5);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(255, 0, 128, 0.8);
+                transform: scale(1.05);
+            }
         }
 
         .voice-status {
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 13px;
             font-weight: 500;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
         }
 
         .voice-status.available {
-            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-            color: #155724;
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.2), rgba(0, 200, 0, 0.1));
+            color: #00ff00;
+            border: 1px solid rgba(0, 255, 0, 0.3);
         }
 
         .voice-status.unavailable {
-            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
-            color: #721c24;
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(200, 0, 0, 0.1));
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 0, 0, 0.3);
         }
 
         .section {
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
 
         .section h3 {
-            margin-bottom: 20px;
-            color: #333;
-            font-size: 1.3em;
-            font-weight: 600;
+            margin-bottom: 25px;
+            color: #fff;
+            font-size: 1.4em;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         .character-grid {
             display: grid;
-            gap: 15px;
+            gap: 20px;
         }
 
         .character-card {
-            padding: 20px;
-            border: 2px solid #e9ecef;
-            border-radius: 16px;
+            padding: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            background: white;
+            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.05);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
         .character-card::before {
@@ -361,15 +467,15 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
+            background: var(--primary-gradient);
             transform: scaleX(0);
-            transition: transform 0.3s ease;
+            transition: transform 0.4s ease;
         }
 
         .character-card:hover {
-            border-color: #667eea;
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+            border-color: var(--neon-pink);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(255, 0, 128, 0.2);
         }
 
         .character-card:hover::before {
@@ -377,9 +483,9 @@
         }
 
         .character-card.selected {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #f0f4ff 0%, #e8f0ff 100%);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+            border-color: var(--neon-pink);
+            background: linear-gradient(135deg, rgba(255, 0, 128, 0.1), rgba(102, 126, 234, 0.1));
+            box-shadow: 0 20px 60px rgba(255, 0, 128, 0.3);
         }
 
         .character-card.selected::before {
@@ -387,72 +493,92 @@
         }
 
         .character-card .emoji {
-            font-size: 32px;
-            margin-bottom: 8px;
+            font-size: 40px;
+            margin-bottom: 12px;
             display: block;
+            animation: characterFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes characterFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
         }
 
         .character-card .name {
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #333;
-            font-size: 1.1em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #fff;
+            font-size: 1.2em;
         }
 
         .character-card .type {
             font-size: 0.9em;
-            color: #666;
+            color: rgba(255, 255, 255, 0.7);
             font-weight: 400;
         }
 
         .model-select {
             width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
+            padding: 16px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
             font-size: 14px;
             outline: none;
             transition: all 0.3s ease;
-            background: white;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
             cursor: pointer;
+            backdrop-filter: blur(10px);
         }
 
         .model-select:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.3);
+        }
+
+        .model-select option {
+            background: #1a1a1a;
+            color: #fff;
         }
 
         .status {
-            padding: 12px 16px;
-            border-radius: 12px;
+            padding: 15px 20px;
+            border-radius: 15px;
             font-size: 0.9em;
             text-align: center;
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
         .status.online {
-            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.2), rgba(0, 200, 0, 0.1));
+            color: #00ff00;
+            border: 1px solid rgba(0, 255, 0, 0.3);
         }
 
         .status.offline {
-            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(200, 0, 0, 0.1));
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 0, 0, 0.3);
         }
 
         .typing-indicator {
             display: none;
-            padding: 16px 20px;
-            background: white;
-            border: 1px solid #e9ecef;
-            border-radius: 20px;
-            color: #666;
+            padding: 20px 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            color: rgba(255, 255, 255, 0.8);
             font-style: italic;
-            margin: 20px 0;
-            animation: pulse 1.5s infinite;
+            margin: 25px 0;
+            animation: typingPulse 1.5s infinite;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes typingPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
         }
 
         .typing-indicator.show {
@@ -461,68 +587,20 @@
 
         .welcome-message {
             text-align: center;
-            padding: 40px 20px;
-            color: #666;
+            padding: 50px 30px;
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .welcome-message h2 {
-            color: #333;
-            margin-bottom: 10px;
-            font-weight: 600;
+            color: #fff;
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 2em;
         }
 
         .welcome-message p {
-            line-height: 1.6;
-        }
-
-        @media (max-width: 1024px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .sidebar {
-                border-right: none;
-                border-bottom: 1px solid #e9ecef;
-                order: 2;
-            }
-            
-            .chat-area {
-                order: 1;
-            }
-            
-            .header h1 {
-                font-size: 2.5em;
-            }
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                border-radius: 16px;
-            }
-            
-            .header {
-                padding: 30px 20px;
-            }
-            
-            .header h1 {
-                font-size: 2em;
-            }
-            
-            .sidebar {
-                padding: 20px;
-            }
-            
-            .chat-input {
-                padding: 20px;
-            }
-            
-            .character-card {
-                padding: 15px;
-            }
+            line-height: 1.8;
+            font-size: 1.1em;
         }
 
         .loading-dots {
@@ -540,13 +618,173 @@
             60% { content: '..'; }
             80%, 100% { content: '...'; }
         }
+
+        /* Voice Visualization */
+        .voice-visualizer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 200px;
+            height: 100px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            border: 2px solid var(--neon-pink);
+            display: none;
+            z-index: 1000;
+        }
+
+        .voice-visualizer.active {
+            display: block;
+        }
+
+        .voice-bars {
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            height: 100%;
+            gap: 3px;
+            padding: 20px;
+        }
+
+        .voice-bar {
+            width: 8px;
+            background: var(--neon-pink);
+            border-radius: 2px;
+            animation: voiceWave 0.5s ease-in-out infinite;
+        }
+
+        @keyframes voiceWave {
+            0%, 100% { height: 20px; }
+            50% { height: 60px; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .sidebar {
+                order: 2;
+            }
+            
+            .chat-area {
+                order: 1;
+                height: 600px;
+            }
+            
+            .header h1 {
+                font-size: 3em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.5em;
+            }
+            
+            .sidebar {
+                padding: 20px;
+            }
+            
+            .chat-input {
+                padding: 20px;
+            }
+            
+            .character-card {
+                padding: 20px;
+            }
+        }
+
+        /* 3D Effects */
+        .character-card, .chat-area, .sidebar {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .character-card:hover {
+            transform: translateY(-8px) scale(1.02) rotateX(5deg);
+        }
+
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            animation: glitch-1 2s infinite linear alternate-reverse;
+            color: var(--neon-pink);
+            z-index: -1;
+        }
+
+        .glitch::after {
+            animation: glitch-2 3s infinite linear alternate-reverse;
+            color: var(--neon-blue);
+            z-index: -2;
+        }
+
+        @keyframes glitch-1 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+
+        @keyframes glitch-2 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(2px, -2px); }
+            40% { transform: translate(2px, 2px); }
+            60% { transform: translate(-2px, -2px); }
+            80% { transform: translate(-2px, 2px); }
+        }
     </style>
 </head>
 <body>
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
+    <!-- Voice Visualizer -->
+    <div class="voice-visualizer" id="voiceVisualizer">
+        <div class="voice-bars">
+            <div class="voice-bar"></div>
+            <div class="voice-bar"></div>
+            <div class="voice-bar"></div>
+            <div class="voice-bar"></div>
+            <div class="voice-bar"></div>
+            <div class="voice-bar"></div>
+            <div class="voice-bar"></div>
+            <div class="voice-bar"></div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="header">
-            <h1>🎭 AI NPC Dialogue Generator with Voice Assistant</h1>
-            <p>Chat with different characters using various AI models and voice commands</p>
+            <h1 class="glitch" data-text="🎭 AI NPC Dialogue Generator">🎭 AI NPC Dialogue Generator</h1>
+            <p>Experience the future of AI conversation with voice magic ✨</p>
         </div>
 
         <div class="main-content">
@@ -595,8 +833,8 @@
             <div class="chat-area">
                 <div class="chat-messages" id="chatMessages">
                     <div class="welcome-message">
-                        <h2>Welcome to AI NPC Dialogue Generator with Voice Assistant! 👋</h2>
-                        <p>Choose a character from the sidebar and start chatting. Use voice commands for hands-free interaction!</p>
+                        <h2>Welcome to the Future of AI Conversation! 🚀</h2>
+                        <p>Choose a character from the sidebar and start chatting. Each character has their own unique voice and personality. Use voice commands for hands-free interaction!</p>
                     </div>
                 </div>
 
@@ -612,6 +850,9 @@
         </div>
     </div>
 
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
     <script>
         // Character data from Flask template
         const characters = {
@@ -622,7 +863,9 @@
                 "traits": "{{ character.traits }}",
                 "emoji": "{{ character.emoji }}",
                 "voice_rate": {{ character.voice_rate }},
-                "voice_pitch": {{ character.voice_pitch }}
+                "voice_pitch": {{ character.voice_pitch }},
+                "voice_volume": {{ character.voice_volume }},
+                "voice_style": "{{ character.voice_style }}"
             }{% if not loop.last %},{% endif %}
             {% endfor %}
         };
@@ -632,6 +875,46 @@
         let isListening = false;
         let recognition = null;
         let synthesis = null;
+
+        // Initialize particles
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: false },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 6,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                },
+                modes: {
+                    repulse: { distance: 100, duration: 0.4 },
+                    push: { particles_nb: 4 }
+                }
+            },
+            retina_detect: true
+        });
 
         // Initialize speech recognition and synthesis
         function initializeVoice() {
@@ -647,6 +930,7 @@
                     document.getElementById('voiceBtn').textContent = '🎤 Listening...';
                     document.getElementById('voiceBtn').classList.add('listening');
                     document.getElementById('stopVoiceBtn').style.display = 'inline-flex';
+                    document.getElementById('voiceVisualizer').classList.add('active');
                 };
 
                 recognition.onresult = function(event) {
@@ -695,6 +979,7 @@
             document.getElementById('voiceBtn').textContent = '🎤 Start Voice Chat';
             document.getElementById('voiceBtn').classList.remove('listening');
             document.getElementById('stopVoiceBtn').style.display = 'none';
+            document.getElementById('voiceVisualizer').classList.remove('active');
         }
 
         function speakText(text, character) {
@@ -706,14 +991,50 @@
                 
                 // Get character voice settings
                 const characterData = characters[character];
-                if (characterData && characterData.voice_rate) {
+                if (characterData) {
                     utterance.rate = characterData.voice_rate / 150; // Normalize rate
-                }
-                if (characterData && characterData.voice_pitch) {
                     utterance.pitch = characterData.voice_pitch;
+                    utterance.volume = characterData.voice_volume;
                 }
 
-                utterance.volume = 0.9;
+                // Apply voice style effects based on character
+                if (characterData && characterData.voice_style) {
+                    switch(characterData.voice_style) {
+                        case 'deep_grumpy':
+                            utterance.pitch = Math.max(0.5, utterance.pitch - 0.2);
+                            utterance.rate = Math.max(0.5, utterance.rate - 0.2);
+                            break;
+                        case 'bubbly_excited':
+                            utterance.pitch = Math.min(2.0, utterance.pitch + 0.3);
+                            utterance.rate = Math.min(2.0, utterance.rate + 0.3);
+                            break;
+                        case 'mysterious_whisper':
+                            utterance.volume = Math.max(0.3, utterance.volume - 0.3);
+                            utterance.rate = Math.max(0.3, utterance.rate - 0.4);
+                            break;
+                        case 'authoritative_stern':
+                            utterance.pitch = Math.max(0.6, utterance.pitch - 0.1);
+                            utterance.rate = Math.max(0.7, utterance.rate - 0.1);
+                            break;
+                        case 'friendly_warm':
+                            utterance.pitch = Math.min(1.5, utterance.pitch + 0.2);
+                            utterance.rate = Math.min(1.8, utterance.rate + 0.2);
+                            break;
+                        case 'ancient_mystical':
+                            utterance.pitch = Math.max(0.4, utterance.pitch - 0.3);
+                            utterance.rate = Math.max(0.3, utterance.rate - 0.5);
+                            break;
+                        case 'fierce_passionate':
+                            utterance.pitch = Math.min(1.8, utterance.pitch + 0.4);
+                            utterance.rate = Math.min(2.0, utterance.rate + 0.4);
+                            break;
+                        case 'playful_mischievous':
+                            utterance.pitch = Math.min(2.0, utterance.pitch + 0.5);
+                            utterance.rate = Math.min(2.2, utterance.rate + 0.5);
+                            break;
+                    }
+                }
+
                 synthesis.speak(utterance);
             }
         }

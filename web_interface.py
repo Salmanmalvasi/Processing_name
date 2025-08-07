@@ -12,15 +12,17 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-# Character definitions with voice settings
+# Character definitions with enhanced voice settings
 CHARACTERS = {
     "drogun": {
         "name": "Drogun",
         "type": "Gruff Blacksmith",
         "traits": "Gruff, impatient, values hard work, speaks in short sentences",
         "emoji": "⚒️",
-        "voice_rate": 150,
-        "voice_pitch": 0.8
+        "voice_rate": 120,
+        "voice_pitch": 0.7,
+        "voice_volume": 0.9,
+        "voice_style": "deep_grumpy"
     },
     "lira": {
         "name": "Lira",
@@ -28,15 +30,19 @@ CHARACTERS = {
         "traits": "Cheerful, talkative, always tries to upsell, uses lots of exclamations",
         "emoji": "🧪",
         "voice_rate": 180,
-        "voice_pitch": 1.2
+        "voice_pitch": 1.3,
+        "voice_volume": 0.95,
+        "voice_style": "bubbly_excited"
     },
     "eldrin": {
         "name": "Eldrin",
         "type": "Mysterious Forest Hermit",
         "traits": "Cryptic, wise, speaks in riddles, calm demeanor",
         "emoji": "🌲",
-        "voice_rate": 120,
-        "voice_pitch": 0.9
+        "voice_rate": 100,
+        "voice_pitch": 0.8,
+        "voice_volume": 0.85,
+        "voice_style": "mysterious_whisper"
     },
     "garrick": {
         "name": "Garrick",
@@ -44,7 +50,9 @@ CHARACTERS = {
         "traits": "Suspicious, direct, doesn't trust easily, speaks with authority",
         "emoji": "🛡️",
         "voice_rate": 140,
-        "voice_pitch": 0.85
+        "voice_pitch": 0.75,
+        "voice_volume": 0.9,
+        "voice_style": "authoritative_stern"
     },
     "elara": {
         "name": "Elara",
@@ -52,7 +60,39 @@ CHARACTERS = {
         "traits": "Friendly, helpful, loves to chat, always positive",
         "emoji": "🏪",
         "voice_rate": 160,
-        "voice_pitch": 1.1
+        "voice_pitch": 1.2,
+        "voice_volume": 0.9,
+        "voice_style": "friendly_warm"
+    },
+    "thorin": {
+        "name": "Thorin",
+        "type": "Ancient Wizard",
+        "traits": "Wise, speaks in ancient tongues, mysterious, powerful",
+        "emoji": "🔮",
+        "voice_rate": 90,
+        "voice_pitch": 0.6,
+        "voice_volume": 0.8,
+        "voice_style": "ancient_mystical"
+    },
+    "zara": {
+        "name": "Zara",
+        "type": "Fierce Warrior",
+        "traits": "Bold, confident, speaks with passion, battle-hardened",
+        "emoji": "⚔️",
+        "voice_rate": 150,
+        "voice_pitch": 1.1,
+        "voice_volume": 0.95,
+        "voice_style": "fierce_passionate"
+    },
+    "merlin": {
+        "name": "Merlin",
+        "type": "Mischievous Trickster",
+        "traits": "Playful, witty, loves jokes, unpredictable",
+        "emoji": "🎭",
+        "voice_rate": 170,
+        "voice_pitch": 1.4,
+        "voice_volume": 0.9,
+        "voice_style": "playful_mischievous"
     }
 }
 
@@ -118,7 +158,9 @@ def chat():
                 'character': CHARACTERS[character]["name"],
                 'voice_settings': {
                     'rate': CHARACTERS[character]["voice_rate"],
-                    'pitch': CHARACTERS[character]["voice_pitch"]
+                    'pitch': CHARACTERS[character]["voice_pitch"],
+                    'volume': CHARACTERS[character]["voice_volume"],
+                    'style': CHARACTERS[character]["voice_style"]
                 }
             })
         else:
@@ -149,6 +191,8 @@ def voice_settings(character):
         return jsonify({
             'rate': CHARACTERS[character]["voice_rate"],
             'pitch': CHARACTERS[character]["voice_pitch"],
+            'volume': CHARACTERS[character]["voice_volume"],
+            'style': CHARACTERS[character]["voice_style"],
             'name': CHARACTERS[character]["name"]
         })
     else:
