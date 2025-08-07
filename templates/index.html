@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI NPC Dialogue Generator</title>
+    <title>AI NPC Dialogue Generator with Voice Assistant</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -259,6 +259,71 @@
             box-shadow: none;
         }
 
+        .voice-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .voice-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .voice-btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .voice-btn.secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .voice-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .voice-btn.listening {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .voice-status {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .voice-status.available {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+        }
+
+        .voice-status.unavailable {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
+        }
+
         .section {
             margin-bottom: 30px;
         }
@@ -390,11 +455,6 @@
             animation: pulse 1.5s infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
         .typing-indicator.show {
             display: block;
         }
@@ -465,7 +525,6 @@
             }
         }
 
-        /* Loading animation */
         .loading-dots {
             display: inline-block;
         }
@@ -486,8 +545,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎭 AI NPC Dialogue Generator</h1>
-            <p>Chat with different characters using various AI models</p>
+            <h1>🎭 AI NPC Dialogue Generator with Voice Assistant</h1>
+            <p>Chat with different characters using various AI models and voice commands</p>
         </div>
 
         <div class="main-content">
@@ -515,6 +574,19 @@
                 </div>
 
                 <div class="section">
+                    <h3>🎤 Voice Assistant</h3>
+                    <div class="voice-status" id="voiceStatus">Checking voice support...</div>
+                    <div class="voice-controls">
+                        <button class="voice-btn primary" id="voiceBtn">
+                            🎤 Start Voice Chat
+                        </button>
+                        <button class="voice-btn secondary" id="stopVoiceBtn" style="display: none;">
+                            ⏹️ Stop Voice
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section">
                     <h3>📊 Status</h3>
                     <div class="status" id="status">Checking...</div>
                 </div>
@@ -523,8 +595,8 @@
             <div class="chat-area">
                 <div class="chat-messages" id="chatMessages">
                     <div class="welcome-message">
-                        <h2>Welcome to AI NPC Dialogue Generator! 👋</h2>
-                        <p>Choose a character from the sidebar and start chatting. You can switch between different AI models to get varying response styles and speeds.</p>
+                        <h2>Welcome to AI NPC Dialogue Generator with Voice Assistant! 👋</h2>
+                        <p>Choose a character from the sidebar and start chatting. Use voice commands for hands-free interaction!</p>
                     </div>
                 </div>
 
@@ -533,7 +605,7 @@
                 </div>
 
                 <div class="chat-input">
-                    <input type="text" id="messageInput" placeholder="Type your message..." maxlength="500">
+                    <input type="text" id="messageInput" placeholder="Type your message or use voice..." maxlength="500">
                     <button id="sendButton">Send</button>
                 </div>
             </div>
@@ -543,6 +615,94 @@
     <script>
         let selectedCharacter = 'drogun';
         let selectedModel = 'llama3-8b-8192';
+        let isListening = false;
+        let recognition = null;
+        let synthesis = null;
+
+        // Initialize speech recognition and synthesis
+        function initializeVoice() {
+            // Check for speech recognition support
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+
+                recognition.onstart = function() {
+                    isListening = true;
+                    document.getElementById('voiceBtn').textContent = '🎤 Listening...';
+                    document.getElementById('voiceBtn').classList.add('listening');
+                    document.getElementById('stopVoiceBtn').style.display = 'inline-flex';
+                };
+
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    document.getElementById('messageInput').value = transcript;
+                    sendMessage();
+                };
+
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error:', event.error);
+                    stopListening();
+                };
+
+                recognition.onend = function() {
+                    stopListening();
+                };
+
+                document.getElementById('voiceStatus').textContent = 'Voice recognition available';
+                document.getElementById('voiceStatus').className = 'voice-status available';
+            } else {
+                document.getElementById('voiceStatus').textContent = 'Voice recognition not supported';
+                document.getElementById('voiceStatus').className = 'voice-status unavailable';
+                document.getElementById('voiceBtn').disabled = true;
+            }
+
+            // Check for speech synthesis support
+            if ('speechSynthesis' in window) {
+                synthesis = window.speechSynthesis;
+                document.getElementById('voiceStatus').textContent += ' • Speech synthesis available';
+            } else {
+                document.getElementById('voiceStatus').textContent += ' • Speech synthesis not supported';
+            }
+        }
+
+        function startListening() {
+            if (recognition) {
+                recognition.start();
+            }
+        }
+
+        function stopListening() {
+            if (recognition) {
+                recognition.stop();
+            }
+            isListening = false;
+            document.getElementById('voiceBtn').textContent = '🎤 Start Voice Chat';
+            document.getElementById('voiceBtn').classList.remove('listening');
+            document.getElementById('stopVoiceBtn').style.display = 'none';
+        }
+
+        function speakText(text, character) {
+            if (synthesis) {
+                // Stop any current speech
+                synthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                // Get character voice settings
+                const characterData = characters[character];
+                if (characterData && characterData.voice_rate) {
+                    utterance.rate = characterData.voice_rate / 150; // Normalize rate
+                }
+                if (characterData && characterData.voice_pitch) {
+                    utterance.pitch = characterData.voice_pitch;
+                }
+
+                utterance.volume = 0.9;
+                synthesis.speak(utterance);
+            }
+        }
 
         // Character selection
         document.querySelectorAll('.character-card').forEach(card => {
@@ -551,7 +711,6 @@
                 this.classList.add('selected');
                 selectedCharacter = this.dataset.character;
                 
-                // Add system message
                 addMessage('system', `Switched to ${this.querySelector('.name').textContent}!`);
             });
         });
@@ -560,6 +719,17 @@
         document.getElementById('modelSelect').addEventListener('change', function() {
             selectedModel = this.value;
             addMessage('system', `Switched to model: ${this.value.split(' - ')[0]}!`);
+        });
+
+        // Voice controls
+        document.getElementById('voiceBtn').addEventListener('click', function() {
+            if (!isListening) {
+                startListening();
+            }
+        });
+
+        document.getElementById('stopVoiceBtn').addEventListener('click', function() {
+            stopListening();
         });
 
         // Send message
@@ -576,14 +746,11 @@
             
             if (!message) return;
             
-            // Add user message
             addMessage('user', message);
             input.value = '';
             
-            // Show typing indicator
             document.getElementById('typingIndicator').classList.add('show');
             
-            // Send to API
             fetch('/chat', {
                 method: 'POST',
                 headers: {
@@ -603,6 +770,11 @@
                     addMessage('error', `Error: ${data.error}`);
                 } else {
                     addMessage('bot', data.reply);
+                    
+                    // Speak the response if voice is enabled
+                    if (synthesis && !synthesis.speaking) {
+                        speakText(data.reply, selectedCharacter);
+                    }
                 }
             })
             .catch(error => {
@@ -614,7 +786,6 @@
         function addMessage(type, content) {
             const messagesContainer = document.getElementById('chatMessages');
             
-            // Remove welcome message if it exists
             const welcomeMessage = messagesContainer.querySelector('.welcome-message');
             if (welcomeMessage) {
                 welcomeMessage.remove();
@@ -658,10 +829,11 @@
                 });
         }
 
-        // Initial setup
+        // Initialize
         document.querySelector('.character-card[data-character="drogun"]').classList.add('selected');
+        initializeVoice();
         checkStatus();
-        setInterval(checkStatus, 30000); // Check every 30 seconds
+        setInterval(checkStatus, 30000);
     </script>
 </body>
 </html> 

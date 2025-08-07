@@ -1,57 +1,62 @@
 #!/usr/bin/env python3
 """
 Web Interface for AI NPC Dialogue Generator
-Simple Flask-based chatbot with character and model selection
+Simple Flask-based chatbot with character and model selection + Voice Assistant
 """
-
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 import requests
 import json
+import os
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)
 
-# Available characters
+# Character definitions with voice settings
 CHARACTERS = {
     "drogun": {
         "name": "Drogun",
         "type": "Gruff Blacksmith",
         "traits": "Gruff, impatient, values hard work, speaks in short sentences",
-        "description": "A grumpy blacksmith who values hard work",
-        "emoji": "🗡️"
+        "emoji": "⚒️",
+        "voice_rate": 150,
+        "voice_pitch": 0.8
     },
     "lira": {
         "name": "Lira",
         "type": "Enthusiastic Potion Seller",
         "traits": "Cheerful, talkative, always tries to upsell, uses lots of exclamations",
-        "description": "A cheerful potion seller who loves to upsell",
-        "emoji": "🧪"
+        "emoji": "🧪",
+        "voice_rate": 180,
+        "voice_pitch": 1.2
     },
     "eldrin": {
         "name": "Eldrin",
         "type": "Mysterious Forest Hermit",
         "traits": "Cryptic, wise, speaks in riddles, calm demeanor",
-        "description": "A mysterious hermit who speaks in riddles",
-        "emoji": "🌲"
+        "emoji": "🌲",
+        "voice_rate": 120,
+        "voice_pitch": 0.9
     },
     "garrick": {
         "name": "Garrick",
         "type": "Cynical City Guard",
         "traits": "Suspicious, direct, doesn't trust easily, speaks with authority",
-        "description": "A cynical city guard who's suspicious of everyone",
-        "emoji": "🛡️"
+        "emoji": "🛡️",
+        "voice_rate": 140,
+        "voice_pitch": 0.85
     },
     "elara": {
         "name": "Elara",
         "type": "Cheerful Shopkeeper",
         "traits": "Friendly, helpful, loves to chat, always positive",
-        "description": "A friendly shopkeeper who loves to chat",
-        "emoji": "🏪"
+        "emoji": "🏪",
+        "voice_rate": 160,
+        "voice_pitch": 1.1
     }
 }
 
-# Available models
+# AI Models
 MODELS = {
     "llama3-8b-8192": {
         "name": "llama3-8b-8192",
@@ -81,65 +86,83 @@ MODELS = {
 
 @app.route('/')
 def index():
-    """Main page with chatbot interface"""
     return render_template('index.html', characters=CHARACTERS, models=MODELS)
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    """Handle chat requests"""
     try:
         data = request.get_json()
         message = data.get('message', '')
-        character_key = data.get('character', 'drogun')
+        character = data.get('character', 'drogun')
         model = data.get('model', 'llama3-8b-8192')
         
         if not message:
             return jsonify({'error': 'No message provided'}), 400
         
-        # Get character info
-        character = CHARACTERS.get(character_key, CHARACTERS['drogun'])
-        
-        # Prepare payload for API
+        # Prepare payload for Groq API
         payload = {
-            "character_name": character["name"],
-            "character_type": character["type"],
-            "traits": character["traits"],
+            "character_name": CHARACTERS[character]["name"],
+            "character_type": CHARACTERS[character]["type"],
+            "traits": CHARACTERS[character]["traits"],
             "player_input": message,
             "model": model
         }
         
-        # Call the API
-        response = requests.post(
-            "http://127.0.0.1:8002/generate",
-            json=payload,
-            timeout=30
-        )
+        # Call Groq API
+        response = requests.post('http://127.0.0.1:8002/generate', json=payload, timeout=30)
         
         if response.status_code == 200:
             result = response.json()
-            reply = result.get('reply', 'No response')
             return jsonify({
-                'reply': reply,
-                'character': character['name'],
-                'model': model
+                'reply': result.get('reply', 'I didn\'t understand that.'),
+                'character': CHARACTERS[character]["name"],
+                'voice_settings': {
+                    'rate': CHARACTERS[character]["voice_rate"],
+                    'pitch': CHARACTERS[character]["voice_pitch"]
+                }
             })
         else:
             return jsonify({'error': f'API Error: {response.status_code}'}), 500
             
+    except requests.exceptions.Timeout:
+        return jsonify({'error': 'Request timed out'}), 408
+    except requests.exceptions.ConnectionError:
+        return jsonify({'error': 'Cannot connect to AI service'}), 503
     except Exception as e:
-        return jsonify({'error': f'Server Error: {str(e)}'}), 500
+        return jsonify({'error': f'Error: {str(e)}'}), 500
 
 @app.route('/api/status')
 def status():
-    """Check API status"""
     try:
-        response = requests.get("http://127.0.0.1:8002/health", timeout=5)
+        response = requests.get('http://127.0.0.1:8002/health', timeout=5)
         if response.status_code == 200:
-            return jsonify({'status': 'online', 'data': response.json()})
+            return jsonify({'status': 'online'})
         else:
-            return jsonify({'status': 'error', 'message': f'HTTP {response.status_code}'})
-    except Exception as e:
-        return jsonify({'status': 'offline', 'message': str(e)})
+            return jsonify({'status': 'offline'})
+    except:
+        return jsonify({'status': 'offline'})
+
+@app.route('/api/voice-settings/<character>')
+def voice_settings(character):
+    """Get voice settings for a character"""
+    if character in CHARACTERS:
+        return jsonify({
+            'rate': CHARACTERS[character]["voice_rate"],
+            'pitch': CHARACTERS[character]["voice_pitch"],
+            'name': CHARACTERS[character]["name"]
+        })
+    else:
+        return jsonify({'error': 'Character not found'}), 404
+
+@app.route('/api/characters')
+def get_characters():
+    """Get all available characters"""
+    return jsonify(CHARACTERS)
+
+@app.route('/api/models')
+def get_models():
+    """Get all available models"""
+    return jsonify(MODELS)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080) 
