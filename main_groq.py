@@ -10,7 +10,14 @@ import time
 
 load_dotenv('.env')
 
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "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")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+if not GROQ_API_KEY:
+    print("⚠️  WARNING: GROQ_API_KEY not found in environment variables!")
+    print("Please set your Groq API key in the .env file:")
+    print("GROQ_API_KEY=your_api_key_here")
+    # Use a fallback key for testing (you should replace this with your actual key)
+                  GROQ_API_KEY = "your_api_key_here"
+
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 # Rate limiting for Groq (much higher limits)

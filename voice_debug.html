@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Debug Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎤 Voice Synthesis Debug Test</h1>
+        
+        <div id="status" class="status info">
+            Checking voice synthesis availability...
+        </div>
+        
+        <h2>Basic Voice Test</h2>
+        <button onclick="testBasicVoice()">Test Basic Voice</button>
+        <button onclick="testCharacterVoice()">Test Character Voice</button>
+        <button onclick="listVoices()">List Available Voices</button>
+        
+        <h2>Voice Controls</h2>
+        <button onclick="toggleVoice()" id="voiceToggle">Voice: ON</button>
+        <button onclick="stopVoice()">Stop Voice</button>
+        
+        <h2>Test Messages</h2>
+        <button onclick="speakTest('Hello, this is a test message.')">Test 1: Basic</button>
+        <button onclick="speakTest('Welcome to the AI NPC Dialogue Generator!')">Test 2: Welcome</button>
+        <button onclick="speakTest('Hmph. Let me see it. This will take time.')">Test 3: Drogun</button>
+        
+        <div id="output"></div>
+    </div>
+
+    <script>
+        let voiceEnabled = true;
+        let synthesis = window.speechSynthesis;
+        
+        // Character voice settings
+        const characterVoice = {
+            "drogun": {
+                "name": "Drogun",
+                "voice_rate": 120,
+                "voice_pitch": 0.8,
+                "voice_volume": 0.95,
+                "voice_id": "com.apple.speech.synthesis.voice.daniel"
+            }
+        };
+        
+        function updateStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${type}`;
+        }
+        
+        function log(message) {
+            const output = document.getElementById('output');
+            output.innerHTML += `<p>${new Date().toLocaleTimeString()}: ${message}</p>`;
+        }
+        
+        function testBasicVoice() {
+            if (!synthesis) {
+                updateStatus('❌ Speech synthesis not supported', 'error');
+                return;
+            }
+            
+            updateStatus('✅ Testing basic voice synthesis...', 'success');
+            const utterance = new SpeechSynthesisUtterance('Hello, this is a test of voice synthesis.');
+            synthesis.speak(utterance);
+            log('Basic voice test started');
+        }
+        
+        function testCharacterVoice() {
+            if (!synthesis) {
+                updateStatus('❌ Speech synthesis not supported', 'error');
+                return;
+            }
+            
+            updateStatus('✅ Testing character voice...', 'success');
+            const utterance = new SpeechSynthesisUtterance('Hmph. Let me see it. This will take time.');
+            
+            // Apply character voice settings
+            const character = characterVoice.drogun;
+            utterance.rate = character.voice_rate / 150;
+            utterance.pitch = character.voice_pitch;
+            utterance.volume = character.voice_volume;
+            
+            // Try to find the specific voice
+            const voices = synthesis.getVoices();
+            const targetVoice = voices.find(voice => 
+                voice.name.toLowerCase().includes('daniel') ||
+                voice.name.toLowerCase().includes('male')
+            );
+            
+            if (targetVoice) {
+                utterance.voice = targetVoice;
+                log(`Using voice: ${targetVoice.name}`);
+            } else {
+                log('No specific voice found, using default');
+            }
+            
+            synthesis.speak(utterance);
+            log('Character voice test started');
+        }
+        
+        function listVoices() {
+            if (!synthesis) {
+                updateStatus('❌ Speech synthesis not supported', 'error');
+                return;
+            }
+            
+            const voices = synthesis.getVoices();
+            updateStatus(`✅ Found ${voices.length} voices`, 'success');
+            
+            log(`Available voices (${voices.length}):`);
+            voices.forEach((voice, index) => {
+                log(`${index + 1}. ${voice.name} (${voice.lang})`);
+            });
+        }
+        
+        function toggleVoice() {
+            voiceEnabled = !voiceEnabled;
+            const button = document.getElementById('voiceToggle');
+            button.textContent = `Voice: ${voiceEnabled ? 'ON' : 'OFF'}`;
+            updateStatus(`Voice ${voiceEnabled ? 'enabled' : 'disabled'}`, voiceEnabled ? 'success' : 'info');
+        }
+        
+        function stopVoice() {
+            if (synthesis) {
+                synthesis.cancel();
+                updateStatus('Voice stopped', 'info');
+                log('Voice synthesis stopped');
+            }
+        }
+        
+        function speakTest(text) {
+            if (!voiceEnabled) {
+                updateStatus('Voice is disabled', 'error');
+                return;
+            }
+            
+            if (!synthesis) {
+                updateStatus('Speech synthesis not supported', 'error');
+                return;
+            }
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            synthesis.speak(utterance);
+            log(`Speaking: "${text}"`);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            if (synthesis) {
+                updateStatus('✅ Speech synthesis is available', 'success');
+                log('Speech synthesis initialized');
+                
+                // Wait for voices to load
+                if (synthesis.getVoices().length === 0) {
+                    synthesis.onvoiceschanged = function() {
+                        const voices = synthesis.getVoices();
+                        log(`Voices loaded: ${voices.length} available`);
+                    };
+                } else {
+                    const voices = synthesis.getVoices();
+                    log(`Voices ready: ${voices.length} available`);
+                }
+            } else {
+                updateStatus('❌ Speech synthesis not supported in this browser', 'error');
+                log('Speech synthesis not available');
+            }
+        });
+    </script>
+</body>
+</html> 

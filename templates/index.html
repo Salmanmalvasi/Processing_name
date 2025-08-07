@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎭 AI NPC Dialogue Generator - Voice Magic</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>🎮 AI NPC Chat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,914 +13,915 @@
         }
 
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            --secondary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            --neon-pink: #ff0080;
-            --neon-blue: #00ffff;
-            --neon-green: #00ff00;
-            --neon-purple: #8000ff;
+            --primary-orange: #ff6b35;
+            --secondary-orange: #ff8c42;
+            --dark-bg: #0a0a0a;
+            --darker-bg: #050505;
+            --card-bg: rgba(20, 20, 20, 0.9);
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --glow-orange: 0 0 20px rgba(255, 107, 53, 0.5);
+            --user-bubble: #667eea;
+            --npc-bubble: #2d3748;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0a0a0a;
+            font-family: 'Rajdhani', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a1a 50%, var(--darker-bg) 100%);
+            color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
-            color: #fff;
-            position: relative;
-        }
-
-        /* Particle Background */
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
         }
 
         .container {
-            position: relative;
-            z-index: 2;
-            max-width: 1600px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-        }
-
-        .header {
-            text-align: center;
-            padding: 40px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--primary-gradient);
-            opacity: 0.1;
-            border-radius: 20px;
-        }
-
-        .header h1 {
-            font-family: 'Orbitron', monospace;
-            font-size: 4em;
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue), var(--neon-green), var(--neon-purple));
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 3s ease-in-out infinite;
-            margin-bottom: 20px;
-            text-shadow: 0 0 30px rgba(255, 0, 128, 0.5);
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .header p {
-            font-size: 1.3em;
-            color: #ccc;
-            font-weight: 300;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
-            to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
-        }
-
-        .main-content {
-            display: grid;
-            grid-template-columns: 400px 1fr;
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .sidebar {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .sidebar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--primary-gradient);
-            animation: borderGlow 2s ease-in-out infinite;
-        }
-
-        @keyframes borderGlow {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        .chat-area {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            height: 800px;
-            position: relative;
-            overflow: hidden;
         }
 
-        .chat-area::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 20%, rgba(255, 0, 128, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%);
-            pointer-events: none;
+        /* Header */
+        .chat-header {
+            background: var(--card-bg);
+            border-radius: 20px 20px 0 0;
+            padding: 20px 30px;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-bottom: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
         }
 
-        .chat-messages {
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .character-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-orange), var(--secondary-orange));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: var(--glow-orange);
+        }
+
+        .character-info h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            color: var(--primary-orange);
+            margin-bottom: 5px;
+        }
+
+        .character-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .control-select {
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .control-select:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+            box-shadow: var(--glow-orange);
+        }
+
+        .mic-button {
+            padding: 10px 12px;
+            background: linear-gradient(45deg, #10b981, #059669);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mic-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .mic-button.recording {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Chat Area */
+        .chat-container {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-top: none;
+            border-bottom: none;
             flex: 1;
-            padding: 30px;
             overflow-y: auto;
-            scroll-behavior: smooth;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        .chat-messages::-webkit-scrollbar {
+        .chat-container::-webkit-scrollbar {
             width: 8px;
         }
 
-        .chat-messages::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
+        .chat-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
         }
 
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: var(--primary-gradient);
-            border-radius: 4px;
+        .chat-container::-webkit-scrollbar-thumb {
+            background: var(--primary-orange);
+            border-radius: 10px;
         }
 
         .message {
-            margin-bottom: 25px;
             display: flex;
-            align-items: flex-start;
-            animation: messageSlide 0.5s ease-out;
-            position: relative;
-        }
-
-        @keyframes messageSlide {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            margin-bottom: 15px;
+            animation: messageSlide 0.3s ease-out;
         }
 
         .message.user {
             justify-content: flex-end;
         }
 
-        .message.bot {
+        .message.npc {
             justify-content: flex-start;
         }
 
-        .message-content {
-            max-width: 75%;
-            padding: 20px 25px;
-            border-radius: 25px;
+        .message-bubble {
+            max-width: 70%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            position: relative;
             word-wrap: break-word;
-            position: relative;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .message.user .message-content {
-            background: linear-gradient(135deg, var(--neon-pink), #ff6b9d);
+        .message.user .message-bubble {
+            background: var(--user-bubble);
             color: white;
-            border-bottom-right-radius: 8px;
-            box-shadow: 0 8px 32px rgba(255, 0, 128, 0.3);
+            border-bottom-right-radius: 4px;
         }
 
-        .message.bot .message-content {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border-bottom-left-radius: 8px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        .message.npc .message-bubble {
+            background: var(--npc-bubble);
+            color: var(--text-primary);
+            border-bottom-left-radius: 4px;
+            border: 1px solid rgba(255, 107, 53, 0.2);
         }
 
-        .message.system .message-content {
-            background: linear-gradient(135deg, var(--neon-blue), #4facfe);
-            color: white;
-            font-size: 0.9em;
-            opacity: 0.9;
-        }
-
-        .message.error .message-content {
-            background: linear-gradient(135deg, #ff4757, #ff3742);
-            color: white;
-        }
-
-        .message-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin: 0 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .message-avatar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--primary-gradient);
-            opacity: 0.3;
-            border-radius: 50%;
-        }
-
-        .message.user .message-avatar {
-            background: linear-gradient(135deg, var(--neon-pink), #ff6b9d);
-            border: none;
-        }
-
-        .chat-input {
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.05);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            position: relative;
-        }
-
-        .chat-input::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: var(--primary-gradient);
-            opacity: 0.5;
-        }
-
-        .chat-input input {
-            flex: 1;
-            padding: 18px 25px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            font-size: 16px;
-            outline: none;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            backdrop-filter: blur(10px);
-        }
-
-        .chat-input input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .chat-input input:focus {
-            border-color: var(--neon-pink);
-            box-shadow: 0 0 20px rgba(255, 0, 128, 0.3);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .chat-input button {
-            padding: 18px 30px;
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .chat-input button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .chat-input button:hover::before {
-            left: 100%;
-        }
-
-        .chat-input button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
-        }
-
-        .voice-controls {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .voice-btn {
-            padding: 15px 25px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .voice-btn.primary {
-            background: var(--primary-gradient);
-            color: white;
-            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
-        }
-
-        .voice-btn.secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .voice-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
-        }
-
-        .voice-btn.listening {
-            background: linear-gradient(135deg, var(--neon-pink), #ff6b9d);
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { 
-                box-shadow: 0 0 20px rgba(255, 0, 128, 0.5);
-                transform: scale(1);
-            }
-            50% { 
-                box-shadow: 0 0 40px rgba(255, 0, 128, 0.8);
-                transform: scale(1.05);
-            }
-        }
-
-        .voice-status {
-            padding: 12px 20px;
-            border-radius: 25px;
-            font-size: 13px;
+        .message-sender {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
             font-weight: 500;
-            text-align: center;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
         }
 
-        .voice-status.available {
-            background: linear-gradient(135deg, rgba(0, 255, 0, 0.2), rgba(0, 200, 0, 0.1));
-            color: #00ff00;
-            border: 1px solid rgba(0, 255, 0, 0.3);
-        }
-
-        .voice-status.unavailable {
-            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(200, 0, 0, 0.1));
-            color: #ff6b6b;
-            border: 1px solid rgba(255, 0, 0, 0.3);
-        }
-
-        .section {
-            margin-bottom: 35px;
-        }
-
-        .section h3 {
-            margin-bottom: 25px;
-            color: #fff;
-            font-size: 1.4em;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        .character-grid {
-            display: grid;
-            gap: 20px;
-        }
-
-        .character-card {
-            padding: 25px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            background: rgba(255, 255, 255, 0.05);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-
-        .character-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--primary-gradient);
-            transform: scaleX(0);
-            transition: transform 0.4s ease;
-        }
-
-        .character-card:hover {
-            border-color: var(--neon-pink);
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(255, 0, 128, 0.2);
-        }
-
-        .character-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .character-card.selected {
-            border-color: var(--neon-pink);
-            background: linear-gradient(135deg, rgba(255, 0, 128, 0.1), rgba(102, 126, 234, 0.1));
-            box-shadow: 0 20px 60px rgba(255, 0, 128, 0.3);
-        }
-
-        .character-card.selected::before {
-            transform: scaleX(1);
-        }
-
-        .character-card .emoji {
-            font-size: 40px;
-            margin-bottom: 12px;
-            display: block;
-            animation: characterFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes characterFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .character-card .name {
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #fff;
-            font-size: 1.2em;
-        }
-
-        .character-card .type {
-            font-size: 0.9em;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 400;
-        }
-
-        .model-select {
-            width: 100%;
-            padding: 16px 20px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            font-size: 14px;
-            outline: none;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-        }
-
-        .model-select:focus {
-            border-color: var(--neon-pink);
-            box-shadow: 0 0 20px rgba(255, 0, 128, 0.3);
-        }
-
-        .model-select option {
-            background: #1a1a1a;
-            color: #fff;
-        }
-
-        .status {
-            padding: 15px 20px;
-            border-radius: 15px;
-            font-size: 0.9em;
-            text-align: center;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .status.online {
-            background: linear-gradient(135deg, rgba(0, 255, 0, 0.2), rgba(0, 200, 0, 0.1));
-            color: #00ff00;
-            border: 1px solid rgba(0, 255, 0, 0.3);
-        }
-
-        .status.offline {
-            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(200, 0, 0, 0.1));
-            color: #ff6b6b;
-            border: 1px solid rgba(255, 0, 0, 0.3);
+        .message-content {
+            line-height: 1.4;
         }
 
         .typing-indicator {
-            display: none;
-            padding: 20px 25px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 12px 18px;
+            background: var(--npc-bubble);
+            border-radius: 18px;
+            border-bottom-left-radius: 4px;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            max-width: 70%;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-orange);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Input Area */
+        .chat-input-area {
+            background: var(--card-bg);
+            border-radius: 0 0 20px 20px;
+            padding: 20px 30px;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-top: none;
+            flex-shrink: 0;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 107, 53, 0.3);
             border-radius: 25px;
-            color: rgba(255, 255, 255, 0.8);
-            font-style: italic;
-            margin: 25px 0;
-            animation: typingPulse 1.5s infinite;
-            backdrop-filter: blur(10px);
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            resize: none;
+            min-height: 50px;
+            max-height: 120px;
+            transition: all 0.3s ease;
         }
 
-        @keyframes typingPulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+        .message-input:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+            box-shadow: var(--glow-orange);
         }
 
-        .typing-indicator.show {
-            display: block;
+        .send-button {
+            padding: 15px 25px;
+            background: linear-gradient(45deg, var(--primary-orange), var(--secondary-orange));
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--glow-orange);
+            min-width: 100px;
         }
 
+        .send-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.4);
+        }
+
+        .send-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Welcome Message */
         .welcome-message {
             text-align: center;
-            padding: 50px 30px;
-            color: rgba(255, 255, 255, 0.8);
+            padding: 40px 20px;
+            color: var(--text-secondary);
         }
 
-        .welcome-message h2 {
-            color: #fff;
-            margin-bottom: 15px;
-            font-weight: 700;
-            font-size: 2em;
+        .welcome-message h3 {
+            font-family: 'Orbitron', monospace;
+            color: var(--primary-orange);
+            margin-bottom: 10px;
         }
 
-        .welcome-message p {
-            line-height: 1.8;
-            font-size: 1.1em;
-        }
-
-        .loading-dots {
-            display: inline-block;
-        }
-
-        .loading-dots::after {
-            content: '';
-            animation: dots 1.5s steps(5, end) infinite;
-        }
-
-        @keyframes dots {
-            0%, 20% { content: ''; }
-            40% { content: '.'; }
-            60% { content: '..'; }
-            80%, 100% { content: '...'; }
-        }
-
-        /* Voice Visualization */
-        .voice-visualizer {
+        /* Status */
+        .status {
             position: fixed;
-            bottom: 20px;
+            top: 20px;
             right: 20px;
-            width: 200px;
-            height: 100px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 15px;
-            border: 2px solid var(--neon-pink);
-            display: none;
-            z-index: 1000;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 100;
         }
 
-        .voice-visualizer.active {
-            display: block;
+        .status.online {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid #10b981;
         }
 
-        .voice-bars {
-            display: flex;
-            align-items: end;
-            justify-content: center;
-            height: 100%;
-            gap: 3px;
-            padding: 20px;
+        .status.offline {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid #ef4444;
         }
 
-        .voice-bar {
-            width: 8px;
-            background: var(--neon-pink);
-            border-radius: 2px;
-            animation: voiceWave 0.5s ease-in-out infinite;
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
-        @keyframes voiceWave {
-            0%, 100% { height: 20px; }
-            50% { height: 60px; }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .main-content {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .sidebar {
-                order: 2;
-            }
-            
-            .chat-area {
-                order: 1;
-                height: 600px;
-            }
-            
-            .header h1 {
-                font-size: 3em;
-            }
-        }
-
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
             .container {
                 padding: 10px;
             }
             
-            .header {
-                padding: 30px 20px;
+            .chat-header {
+                padding: 15px 20px;
             }
             
-            .header h1 {
-                font-size: 2.5em;
+            .header-controls {
+                flex-direction: column;
+                gap: 5px;
             }
             
-            .sidebar {
-                padding: 20px;
+            .control-select {
+                font-size: 0.8rem;
+                padding: 6px 8px;
             }
             
-            .chat-input {
-                padding: 20px;
+            .message-bubble {
+                max-width: 85%;
             }
             
-            .character-card {
-                padding: 20px;
+            .chat-input-area {
+                padding: 15px 20px;
             }
-        }
-
-        /* 3D Effects */
-        .character-card, .chat-area, .sidebar {
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-
-        .character-card:hover {
-            transform: translateY(-8px) scale(1.02) rotateX(5deg);
-        }
-
-        /* Glitch Effect */
-        .glitch {
-            position: relative;
-        }
-
-        .glitch::before,
-        .glitch::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .glitch::before {
-            animation: glitch-1 2s infinite linear alternate-reverse;
-            color: var(--neon-pink);
-            z-index: -1;
-        }
-
-        .glitch::after {
-            animation: glitch-2 3s infinite linear alternate-reverse;
-            color: var(--neon-blue);
-            z-index: -2;
-        }
-
-        @keyframes glitch-1 {
-            0%, 100% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-        }
-
-        @keyframes glitch-2 {
-            0%, 100% { transform: translate(0); }
-            20% { transform: translate(2px, -2px); }
-            40% { transform: translate(2px, 2px); }
-            60% { transform: translate(-2px, -2px); }
-            80% { transform: translate(-2px, 2px); }
         }
     </style>
 </head>
 <body>
-    <!-- Particle Background -->
-    <div id="particles-js"></div>
-
-    <!-- Voice Visualizer -->
-    <div class="voice-visualizer" id="voiceVisualizer">
-        <div class="voice-bars">
-            <div class="voice-bar"></div>
-            <div class="voice-bar"></div>
-            <div class="voice-bar"></div>
-            <div class="voice-bar"></div>
-            <div class="voice-bar"></div>
-            <div class="voice-bar"></div>
-            <div class="voice-bar"></div>
-            <div class="voice-bar"></div>
-        </div>
-    </div>
-
     <div class="container">
-        <div class="header">
-            <h1 class="glitch" data-text="🎭 AI NPC Dialogue Generator">🎭 AI NPC Dialogue Generator</h1>
-            <p>Experience the future of AI conversation with voice magic ✨</p>
-        </div>
-
-        <div class="main-content">
-            <div class="sidebar">
-                <div class="section">
-                    <h3>🎭 Select Character</h3>
-                    <div class="character-grid">
-                        {% for key, character in characters.items() %}
-                        <div class="character-card" data-character="{{ key }}">
-                            <div class="emoji">{{ character.emoji }}</div>
-                            <div class="name">{{ character.name }}</div>
-                            <div class="type">{{ character.type }}</div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h3>🤖 Select Model</h3>
-                    <select class="model-select" id="modelSelect">
-                        {% for key, model in models.items() %}
-                        <option value="{{ key }}">{{ model.name }} - {{ model.description }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="section">
-                    <h3>🎤 Voice Assistant</h3>
-                    <div class="voice-status" id="voiceStatus">Checking voice support...</div>
-                    <div class="voice-controls">
-                        <button class="voice-btn primary" id="voiceBtn">
-                            🎤 Start Voice Chat
-                        </button>
-                        <button class="voice-btn secondary" id="stopVoiceBtn" style="display: none;">
-                            ⏹️ Stop Voice
-                        </button>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h3>📊 Status</h3>
-                    <div class="status" id="status">Checking...</div>
+        <!-- Chat Header -->
+        <div class="chat-header">
+            <div class="header-left">
+                <div class="character-avatar" id="characterAvatar">⚒️</div>
+                <div class="character-info">
+                    <h2 id="characterName">Drogun</h2>
+                    <p id="characterType">Gruff Blacksmith</p>
                 </div>
             </div>
+            <div class="header-controls">
+                <select class="control-select" id="characterSelect">
+                    <option value="drogun">⚒️ Drogun - Gruff Blacksmith</option>
+                    <option value="lira">🧪 Lira - Enthusiastic Potion Seller</option>
+                    <option value="eldrin">🌲 Eldrin - Mysterious Forest Hermit</option>
+                    <option value="garrick">🛡️ Garrick - Cynical City Guard</option>
+                    <option value="elara">🏪 Elara - Cheerful Shopkeeper</option>
+                    <option value="thorin">🔮 Thorin - Ancient Wizard</option>
+                    <option value="zara">⚔️ Zara - Fierce Warrior</option>
+                    <option value="merlin">🎭 Merlin - Mischievous Trickster</option>
+                    <option value="seraphina">👑 Seraphina - Elegant Noble</option>
+                    <option value="grommash">🪓 Grommash - Barbarian Chief</option>
+                </select>
+                <select class="control-select" id="modelSelect">
+                    <option value="llama3-8b-8192">Llama3-8B</option>
+                    <option value="llama3-70b-8192">Llama3-70B</option>
+                    <option value="gemma2-9b-it">Gemma2-9B</option>
+                </select>
+                <button class="mic-button" id="micButton" title="Voice Input">🎤</button>
+            </div>
+        </div>
 
-            <div class="chat-area">
-                <div class="chat-messages" id="chatMessages">
-                    <div class="welcome-message">
-                        <h2>Welcome to the Future of AI Conversation! 🚀</h2>
-                        <p>Choose a character from the sidebar and start chatting. Each character has their own unique voice and personality. Use voice commands for hands-free interaction!</p>
-                    </div>
-                </div>
+        <!-- Chat Messages -->
+        <div class="chat-container" id="chatContainer">
+            <div class="welcome-message">
+                <h3>🎮 Welcome to AI NPC Chat!</h3>
+                <p>Choose a character and start chatting. You can type or use the microphone to speak.</p>
+            </div>
+        </div>
 
-                <div class="typing-indicator" id="typingIndicator">
-                    AI is thinking<span class="loading-dots"></span>
-                </div>
-
-                <div class="chat-input">
-                    <input type="text" id="messageInput" placeholder="Type your message or use voice..." maxlength="500">
-                    <button id="sendButton">Send</button>
-                </div>
+        <!-- Chat Input -->
+        <div class="chat-input-area">
+            <div class="input-container">
+                <textarea 
+                    class="message-input" 
+                    id="messageInput" 
+                    placeholder="Type your message here..." 
+                    rows="1"
+                ></textarea>
+                <button class="send-button" id="sendButton">Send</button>
             </div>
         </div>
     </div>
 
-    <!-- Particles.js -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Status Indicator -->
+    <div class="status" id="status">🟢 Online</div>
 
     <script>
-        // Character data from Flask template
+        // Character data with enhanced voice personalities
         const characters = {
-            {% for key, character in characters.items() %}
-            "{{ key }}": {
-                "name": "{{ character.name }}",
-                "type": "{{ character.type }}",
-                "traits": "{{ character.traits }}",
-                "emoji": "{{ character.emoji }}",
-                "voice_rate": {{ character.voice_rate }},
-                "voice_pitch": {{ character.voice_pitch }},
-                "voice_volume": {{ character.voice_volume }},
-                "voice_style": "{{ character.voice_style }}",
-                "voice_accent": "{{ character.voice_accent }}",
-                "speech_pattern": "{{ character.speech_pattern }}"
-            }{% if not loop.last %},{% endif %}
-            {% endfor %}
+            "drogun": {
+                "name": "Drogun",
+                "type": "Gruff Blacksmith",
+                "traits": "Gruff, impatient, values hard work, speaks in short sentences",
+                "emoji": "⚒️",
+                "voice_rate": 135,
+                "voice_pitch": 0.7,
+                "voice_volume": 0.95,
+                "voice_id": "com.apple.speech.synthesis.voice.daniel",
+                "voice_style": "grumpy_impatient"
+            },
+            "lira": {
+                "name": "Lira",
+                "type": "Enthusiastic Potion Seller",
+                "traits": "Cheerful, talkative, always tries to upsell, uses lots of exclamations",
+                "emoji": "🧪",
+                "voice_rate": 195,
+                "voice_pitch": 1.6,
+                "voice_volume": 0.95,
+                "voice_id": "com.apple.speech.synthesis.voice.samantha",
+                "voice_style": "bubbly_excited"
+            },
+            "eldrin": {
+                "name": "Eldrin",
+                "type": "Mysterious Forest Hermit",
+                "traits": "Cryptic, wise, speaks in riddles, calm demeanor",
+                "emoji": "🌲",
+                "voice_rate": 105,
+                "voice_pitch": 0.8,
+                "voice_volume": 0.8,
+                "voice_id": "com.apple.speech.synthesis.voice.fred",
+                "voice_style": "mysterious_wise"
+            },
+            "garrick": {
+                "name": "Garrick",
+                "type": "Cynical City Guard",
+                "traits": "Suspicious, direct, doesn't trust easily, speaks with authority",
+                "emoji": "🛡️",
+                "voice_rate": 150,
+                "voice_pitch": 0.6,
+                "voice_volume": 0.95,
+                "voice_id": "com.apple.speech.synthesis.voice.albert",
+                "voice_style": "authoritative_stern"
+            },
+            "elara": {
+                "name": "Elara",
+                "type": "Cheerful Shopkeeper",
+                "traits": "Friendly, helpful, loves to chat, always positive",
+                "emoji": "🏪",
+                "voice_rate": 180,
+                "voice_pitch": 1.4,
+                "voice_volume": 0.9,
+                "voice_id": "com.apple.speech.synthesis.voice.karen",
+                "voice_style": "friendly_warm"
+            },
+            "thorin": {
+                "name": "Thorin",
+                "type": "Ancient Wizard",
+                "traits": "Wise, speaks in ancient tongues, mysterious, powerful",
+                "emoji": "🔮",
+                "voice_rate": 90,
+                "voice_pitch": 0.5,
+                "voice_volume": 0.7,
+                "voice_id": "com.apple.speech.synthesis.voice.ralph",
+                "voice_style": "ancient_mystical"
+            },
+            "zara": {
+                "name": "Zara",
+                "type": "Fierce Warrior",
+                "traits": "Bold, confident, speaks with passion, battle-hardened",
+                "emoji": "⚔️",
+                "voice_rate": 165,
+                "voice_pitch": 1.3,
+                "voice_volume": 0.95,
+                "voice_id": "com.apple.speech.synthesis.voice.tessa",
+                "voice_style": "fierce_passionate"
+            },
+            "merlin": {
+                "name": "Merlin",
+                "type": "Mischievous Trickster",
+                "traits": "Playful, witty, loves jokes, unpredictable",
+                "emoji": "🎭",
+                "voice_rate": 210,
+                "voice_pitch": 1.7,
+                "voice_volume": 0.9,
+                "voice_id": "com.apple.speech.synthesis.voice.jester",
+                "voice_style": "playful_mischievous"
+            },
+            "seraphina": {
+                "name": "Seraphina",
+                "type": "Elegant Noble",
+                "traits": "Refined, sophisticated, speaks with grace, aristocratic",
+                "emoji": "👑",
+                "voice_rate": 150,
+                "voice_pitch": 1.2,
+                "voice_volume": 0.85,
+                "voice_id": "com.apple.speech.synthesis.voice.moira",
+                "voice_style": "elegant_refined"
+            },
+            "grommash": {
+                "name": "Grommash",
+                "type": "Barbarian Chief",
+                "traits": "Fierce, loud, speaks with power, tribal leader",
+                "emoji": "🪓",
+                "voice_rate": 135,
+                "voice_pitch": 0.4,
+                "voice_volume": 1.0,
+                "voice_id": "com.apple.speech.synthesis.voice.grandpa",
+                "voice_style": "barbaric_powerful"
+            }
         };
 
         let selectedCharacter = 'drogun';
         let selectedModel = 'llama3-8b-8192';
-        let isListening = false;
+        let synthesis = window.speechSynthesis;
         let recognition = null;
-        let synthesis = null;
 
-        // Initialize particles
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 80, density: { enable: true, value_area: 800 } },
-                color: { value: "#ffffff" },
-                shape: { type: "circle" },
-                opacity: { value: 0.5, random: false },
-                size: { value: 3, random: true },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: "#ffffff",
-                    opacity: 0.4,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 6,
-                    direction: "none",
-                    random: false,
-                    straight: false,
-                    out_mode: "out",
-                    bounce: false
-                }
-            },
-            interactivity: {
-                detect_on: "canvas",
-                events: {
-                    onhover: { enable: true, mode: "repulse" },
-                    onclick: { enable: true, mode: "push" },
-                    resize: true
-                },
-                modes: {
-                    repulse: { distance: 100, duration: 0.4 },
-                    push: { particles_nb: 4 }
-                }
-            },
-            retina_detect: true
-        });
+        function initializeApp() {
+            setupEventListeners();
+            updateCharacterDisplay();
+            checkStatus();
+            initializeSpeechRecognition();
+            autoResizeTextarea();
+        }
 
-        // Initialize speech recognition and synthesis
-        function initializeVoice() {
-            // Check for speech recognition support
+        function setupEventListeners() {
+            document.getElementById('sendButton').addEventListener('click', sendMessage);
+            document.getElementById('messageInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+            document.getElementById('micButton').addEventListener('click', toggleSpeechRecognition);
+            document.getElementById('characterSelect').addEventListener('change', (e) => {
+                selectedCharacter = e.target.value;
+                updateCharacterDisplay();
+                addSystemMessage(`Switched to ${characters[selectedCharacter].name}`);
+            });
+            document.getElementById('modelSelect').addEventListener('change', (e) => {
+                selectedModel = e.target.value;
+            });
+        }
+
+        function updateCharacterDisplay() {
+            const character = characters[selectedCharacter];
+            document.getElementById('characterAvatar').textContent = character.emoji;
+            document.getElementById('characterName').textContent = character.name;
+            document.getElementById('characterType').textContent = character.type;
+        }
+
+        function addSystemMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message npc';
+            messageDiv.innerHTML = `
+                <div class="message-bubble">
+                    <div class="message-sender">🎮 System</div>
+                    <div class="message-content">${message}</div>
+                </div>
+            `;
+            document.getElementById('chatContainer').appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function addUserMessage(content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user';
+            messageDiv.innerHTML = `
+                <div class="message-bubble">
+                    <div class="message-content">${content}</div>
+                </div>
+            `;
+            document.getElementById('chatContainer').appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function addNPCMessage(content) {
+            const character = characters[selectedCharacter];
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message npc';
+            messageDiv.innerHTML = `
+                <div class="message-bubble">
+                    <div class="message-sender">${character.emoji} ${character.name}</div>
+                    <div class="message-content">${content}</div>
+                </div>
+            `;
+            document.getElementById('chatContainer').appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message npc';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            document.getElementById('chatContainer').appendChild(typingDiv);
+            scrollToBottom();
+        }
+
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        function scrollToBottom() {
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function autoResizeTextarea() {
+            const textarea = document.getElementById('messageInput');
+            textarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+            });
+        }
+
+        async function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            // Clear input and add user message
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+            addUserMessage(message);
+
+            // Show typing indicator
+            showTypingIndicator();
+
+            // Disable send button
+            const sendButton = document.getElementById('sendButton');
+            sendButton.disabled = true;
+            sendButton.textContent = 'Sending...';
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: message,
+                        character: selectedCharacter,
+                        model: selectedModel
+                    })
+                });
+
+                const data = await response.json();
+
+                // Hide typing indicator
+                hideTypingIndicator();
+
+                if (data.error) {
+                    addNPCMessage(`❌ Error: ${data.error}`);
+                } else {
+                    addNPCMessage(data.reply);
+                    
+                    // Speak the response with enhanced volume
+                    if (synthesis && !synthesis.speaking) {
+                        speakText(data.reply, selectedCharacter);
+                    }
+                }
+            } catch (error) {
+                hideTypingIndicator();
+                addNPCMessage('❌ Error: Failed to connect to AI service');
+            } finally {
+                sendButton.disabled = false;
+                sendButton.textContent = 'Send';
+            }
+        }
+
+        function speakText(text, character) {
+            if (!synthesis || synthesis.speaking) return;
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            const characterData = characters[character];
+            
+            if (characterData) {
+                // Enhanced character-specific voice settings
+                utterance.rate = characterData.voice_rate / 150;
+                utterance.pitch = characterData.voice_pitch;
+                utterance.volume = characterData.voice_volume;
+                
+                // Add character-specific voice modulation
+                applyCharacterVoiceStyle(utterance, characterData);
+            }
+            
+            // Get available voices and select the best match
+            const voices = synthesis.getVoices();
+            const targetVoice = findBestVoice(voices, characterData);
+            
+            if (targetVoice) {
+                utterance.voice = targetVoice;
+                console.log(`Using voice: ${targetVoice.name} for ${characterData.name}`);
+            }
+            
+            synthesis.speak(utterance);
+        }
+
+        function applyCharacterVoiceStyle(utterance, characterData) {
+            // Apply character-specific speech patterns and emotional modulation
+            const character = characterData.name.toLowerCase();
+            
+            switch(character) {
+                case 'drogun':
+                    // Gruff, impatient, short sentences
+                    utterance.rate = 0.9;
+                    utterance.pitch = 0.7;
+                    utterance.volume = 1.0;
+                    break;
+                    
+                case 'lira':
+                    // Cheerful, excited, fast-paced
+                    utterance.rate = 1.3;
+                    utterance.pitch = 1.6;
+                    utterance.volume = 1.0;
+                    break;
+                    
+                case 'eldrin':
+                    // Mysterious, slow, wise
+                    utterance.rate = 0.7;
+                    utterance.pitch = 0.8;
+                    utterance.volume = 1.0;
+                    break;
+                    
+                case 'garrick':
+                    // Authoritative, stern, commanding
+                    utterance.rate = 1.0;
+                    utterance.pitch = 0.6;
+                    utterance.volume = 1.0;
+                    break;
+                    
+                case 'elara':
+                    // Friendly, warm, welcoming
+                    utterance.rate = 1.2;
+                    utterance.pitch = 1.4;
+                    utterance.volume = 1.0;
+                    break;
+                    
+                case 'thorin':
+                    // Ancient, mysterious, powerful
+                    utterance.rate = 0.6;
+                    utterance.pitch = 0.5;
+                    utterance.volume = 1.0;
+                    break;
+                    
+                case 'zara':
+                    // Bold, confident, passionate
+                    utterance.rate = 1.1;
+                    utterance.pitch = 1.3;
+                    utterance.volume = 1.0;
+                    break;
+                    
+                case 'merlin':
+                    // Playful, mischievous, witty
+                    utterance.rate = 1.4;
+                    utterance.pitch = 1.7;
+                    utterance.volume = 1.0;
+                    break;
+                    
+                case 'seraphina':
+                    // Elegant, refined, sophisticated
+                    utterance.rate = 1.0;
+                    utterance.pitch = 1.2;
+                    utterance.volume = 1.0;
+                    break;
+                    
+                case 'grommash':
+                    // Fierce, loud, powerful
+                    utterance.rate = 0.9;
+                    utterance.pitch = 0.4;
+                    utterance.volume = 1.0;
+                    break;
+            }
+        }
+
+        function findBestVoice(voices, characterData) {
+            const character = characterData.name.toLowerCase();
+            let targetVoice = null;
+            
+            // Try to find exact voice match first
+            if (characterData.voice_id) {
+                targetVoice = voices.find(voice => 
+                    voice.name.toLowerCase().includes(characterData.voice_id.split('.').pop().toLowerCase())
+                );
+            }
+            
+            // Character-specific voice selection with fallbacks
+            if (!targetVoice) {
+                switch(character) {
+                    case 'drogun':
+                    case 'garrick':
+                    case 'grommash':
+                        // Deep male voices for gruff characters
+                        targetVoice = voices.find(voice => 
+                            voice.lang.startsWith('en') && 
+                            (voice.name.toLowerCase().includes('daniel') ||
+                             voice.name.toLowerCase().includes('albert') ||
+                             voice.name.toLowerCase().includes('fred') ||
+                             voice.name.toLowerCase().includes('ralph') ||
+                             voice.name.toLowerCase().includes('grandpa'))
+                        );
+                        break;
+                        
+                    case 'thorin':
+                        // Ancient, wise voice
+                        targetVoice = voices.find(voice => 
+                            voice.lang.startsWith('en') && 
+                            (voice.name.toLowerCase().includes('ralph') ||
+                             voice.name.toLowerCase().includes('grandpa') ||
+                             voice.name.toLowerCase().includes('fred'))
+                        );
+                        break;
+                        
+                    case 'lira':
+                    case 'elara':
+                        // Cheerful female voices
+                        targetVoice = voices.find(voice => 
+                            voice.lang.startsWith('en') && 
+                            (voice.name.toLowerCase().includes('samantha') ||
+                             voice.name.toLowerCase().includes('karen') ||
+                             voice.name.toLowerCase().includes('tessa'))
+                        );
+                        break;
+                        
+                    case 'zara':
+                        // Strong, confident female voice
+                        targetVoice = voices.find(voice => 
+                            voice.lang.startsWith('en') && 
+                            (voice.name.toLowerCase().includes('tessa') ||
+                             voice.name.toLowerCase().includes('samantha'))
+                        );
+                        break;
+                        
+                    case 'seraphina':
+                        // Elegant, refined voice
+                        targetVoice = voices.find(voice => 
+                            voice.lang.startsWith('en') && 
+                            (voice.name.toLowerCase().includes('moira') ||
+                             voice.name.toLowerCase().includes('karen'))
+                        );
+                        break;
+                        
+                    case 'merlin':
+                        // Playful, energetic voice
+                        targetVoice = voices.find(voice => 
+                            voice.lang.startsWith('en') && 
+                            (voice.name.toLowerCase().includes('jester') ||
+                             voice.name.toLowerCase().includes('daniel'))
+                        );
+                        break;
+                        
+                    case 'eldrin':
+                        // Mysterious, wise voice
+                        targetVoice = voices.find(voice => 
+                            voice.lang.startsWith('en') && 
+                            (voice.name.toLowerCase().includes('fred') ||
+                             voice.name.toLowerCase().includes('ralph'))
+                        );
+                        break;
+                }
+            }
+            
+            // Final fallback to any English voice
+            if (!targetVoice) {
+                targetVoice = voices.find(voice => voice.lang.startsWith('en'));
+            }
+            
+            return targetVoice;
+        }
+
+        function initializeSpeechRecognition() {
             if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
                 recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
                 recognition.continuous = false;
@@ -928,379 +929,51 @@
                 recognition.lang = 'en-US';
 
                 recognition.onstart = function() {
-                    isListening = true;
-                    document.getElementById('voiceBtn').textContent = '🎤 Listening...';
-                    document.getElementById('voiceBtn').classList.add('listening');
-                    document.getElementById('stopVoiceBtn').style.display = 'inline-flex';
-                    document.getElementById('voiceVisualizer').classList.add('active');
+                    document.getElementById('micButton').classList.add('recording');
                 };
 
                 recognition.onresult = function(event) {
                     const transcript = event.results[0][0].transcript;
                     document.getElementById('messageInput').value = transcript;
+                    document.getElementById('micButton').classList.remove('recording');
                     sendMessage();
                 };
 
                 recognition.onerror = function(event) {
                     console.error('Speech recognition error:', event.error);
-                    stopListening();
+                    document.getElementById('micButton').classList.remove('recording');
                 };
 
                 recognition.onend = function() {
-                    stopListening();
+                    document.getElementById('micButton').classList.remove('recording');
                 };
-
-                document.getElementById('voiceStatus').textContent = 'Voice recognition available';
-                document.getElementById('voiceStatus').className = 'voice-status available';
             } else {
-                document.getElementById('voiceStatus').textContent = 'Voice recognition not supported';
-                document.getElementById('voiceStatus').className = 'voice-status unavailable';
-                document.getElementById('voiceBtn').disabled = true;
-            }
-
-            // Check for speech synthesis support
-            if ('speechSynthesis' in window) {
-                synthesis = window.speechSynthesis;
-                document.getElementById('voiceStatus').textContent += ' • Speech synthesis available';
-            } else {
-                document.getElementById('voiceStatus').textContent += ' • Speech synthesis not supported';
+                document.getElementById('micButton').disabled = true;
+                document.getElementById('micButton').title = 'Speech recognition not supported';
             }
         }
 
-        function startListening() {
-            if (recognition) {
-                recognition.start();
+        function toggleSpeechRecognition() {
+            if (!recognition) {
+                alert('Speech recognition not supported in your browser');
+                return;
+            }
+            recognition.start();
+        }
+
+        async function checkStatus() {
+            try {
+                const response = await fetch('/api/status');
+                const data = await response.json();
+                document.getElementById('status').textContent = data.status === 'online' ? '🟢 Online' : '🔴 Offline';
+                document.getElementById('status').className = `status ${data.status === 'online' ? 'online' : 'offline'}`;
+            } catch (error) {
+                document.getElementById('status').textContent = '🔴 Offline';
+                document.getElementById('status').className = 'status offline';
             }
         }
 
-        function stopListening() {
-            if (recognition) {
-                recognition.stop();
-            }
-            isListening = false;
-            document.getElementById('voiceBtn').textContent = '🎤 Start Voice Chat';
-            document.getElementById('voiceBtn').classList.remove('listening');
-            document.getElementById('stopVoiceBtn').style.display = 'none';
-            document.getElementById('voiceVisualizer').classList.remove('active');
-        }
-
-        function speakText(text, character) {
-            if (synthesis) {
-                // Stop any current speech
-                synthesis.cancel();
-
-                const utterance = new SpeechSynthesisUtterance(text);
-                
-                // Get character voice settings
-                const characterData = characters[character];
-                if (characterData) {
-                    utterance.rate = characterData.voice_rate / 150; // Normalize rate
-                    utterance.pitch = characterData.voice_pitch;
-                    utterance.volume = characterData.voice_volume;
-                }
-
-                // Try to set specific voice for the character
-                if (characterData && characterData.voice_id) {
-                    const voices = synthesis.getVoices();
-                    const targetVoice = voices.find(voice => 
-                        voice.name.includes(characterData.voice_id) || 
-                        voice.name.includes(characterData.voice_engine)
-                    );
-                    
-                    if (targetVoice) {
-                        utterance.voice = targetVoice;
-                        console.log(`Using voice: ${targetVoice.name} for ${characterData.name}`);
-                    } else {
-                        // Fallback: select voice based on engine type
-                        const engineType = characterData.voice_engine;
-                        let fallbackVoice = null;
-                        
-                        if (engineType.includes('male')) {
-                            fallbackVoice = voices.find(voice => 
-                                voice.lang.startsWith('en') && 
-                                voice.name.toLowerCase().includes('male')
-                            );
-                        } else if (engineType.includes('female')) {
-                            fallbackVoice = voices.find(voice => 
-                                voice.lang.startsWith('en') && 
-                                voice.name.toLowerCase().includes('female')
-                            );
-                        }
-                        
-                        if (fallbackVoice) {
-                            utterance.voice = fallbackVoice;
-                            console.log(`Using fallback voice: ${fallbackVoice.name} for ${characterData.name}`);
-                        }
-                    }
-                }
-
-                // Apply voice style effects based on character
-                if (characterData && characterData.voice_style) {
-                    switch(characterData.voice_style) {
-                        case 'deep_grumpy':
-                            utterance.pitch = Math.max(0.4, utterance.pitch - 0.3);
-                            utterance.rate = Math.max(0.4, utterance.rate - 0.3);
-                            break;
-                        case 'bubbly_excited':
-                            utterance.pitch = Math.min(2.2, utterance.pitch + 0.4);
-                            utterance.rate = Math.min(2.2, utterance.rate + 0.4);
-                            break;
-                        case 'mysterious_whisper':
-                            utterance.volume = Math.max(0.2, utterance.volume - 0.4);
-                            utterance.rate = Math.max(0.2, utterance.rate - 0.5);
-                            break;
-                        case 'authoritative_stern':
-                            utterance.pitch = Math.max(0.5, utterance.pitch - 0.2);
-                            utterance.rate = Math.max(0.6, utterance.rate - 0.2);
-                            break;
-                        case 'friendly_warm':
-                            utterance.pitch = Math.min(1.6, utterance.pitch + 0.3);
-                            utterance.rate = Math.min(1.9, utterance.rate + 0.3);
-                            break;
-                        case 'ancient_mystical':
-                            utterance.pitch = Math.max(0.3, utterance.pitch - 0.4);
-                            utterance.rate = Math.max(0.2, utterance.rate - 0.6);
-                            break;
-                        case 'fierce_passionate':
-                            utterance.pitch = Math.min(1.9, utterance.pitch + 0.5);
-                            utterance.rate = Math.min(2.1, utterance.rate + 0.5);
-                            break;
-                        case 'playful_mischievous':
-                            utterance.pitch = Math.min(2.2, utterance.pitch + 0.6);
-                            utterance.rate = Math.min(2.3, utterance.rate + 0.6);
-                            break;
-                        case 'elegant_refined':
-                            utterance.pitch = Math.min(1.4, utterance.pitch + 0.2);
-                            utterance.rate = Math.min(1.6, utterance.rate + 0.1);
-                            break;
-                        case 'barbaric_powerful':
-                            utterance.pitch = Math.max(0.3, utterance.pitch - 0.5);
-                            utterance.rate = Math.max(0.5, utterance.rate - 0.3);
-                            utterance.volume = Math.min(1.0, utterance.volume + 0.1);
-                            break;
-                    }
-                }
-
-                // Apply accent effects
-                if (characterData && characterData.voice_accent) {
-                    switch(characterData.voice_accent) {
-                        case 'northern':
-                            utterance.pitch = Math.max(0.4, utterance.pitch - 0.1);
-                            utterance.rate = Math.max(0.7, utterance.rate - 0.1);
-                            break;
-                        case 'southern':
-                            utterance.pitch = Math.min(1.8, utterance.pitch + 0.2);
-                            utterance.rate = Math.min(1.9, utterance.rate + 0.2);
-                            break;
-                        case 'ancient':
-                            utterance.pitch = Math.max(0.3, utterance.pitch - 0.3);
-                            utterance.rate = Math.max(0.3, utterance.rate - 0.4);
-                            break;
-                        case 'military':
-                            utterance.pitch = Math.max(0.5, utterance.pitch - 0.2);
-                            utterance.rate = Math.max(0.6, utterance.rate - 0.2);
-                            break;
-                        case 'merchant':
-                            utterance.pitch = Math.min(1.5, utterance.pitch + 0.2);
-                            utterance.rate = Math.min(1.7, utterance.rate + 0.2);
-                            break;
-                        case 'arcane':
-                            utterance.pitch = Math.max(0.2, utterance.pitch - 0.4);
-                            utterance.rate = Math.max(0.2, utterance.rate - 0.5);
-                            break;
-                        case 'warrior':
-                            utterance.pitch = Math.min(1.8, utterance.pitch + 0.3);
-                            utterance.rate = Math.min(2.0, utterance.rate + 0.3);
-                            break;
-                        case 'trickster':
-                            utterance.pitch = Math.min(2.1, utterance.pitch + 0.4);
-                            utterance.rate = Math.min(2.2, utterance.rate + 0.4);
-                            break;
-                        case 'noble':
-                            utterance.pitch = Math.min(1.3, utterance.pitch + 0.1);
-                            utterance.rate = Math.min(1.5, utterance.rate + 0.1);
-                            break;
-                        case 'tribal':
-                            utterance.pitch = Math.max(0.2, utterance.pitch - 0.4);
-                            utterance.rate = Math.max(0.4, utterance.rate - 0.3);
-                            utterance.volume = Math.min(1.0, utterance.volume + 0.2);
-                            break;
-                    }
-                }
-
-                // Apply speech pattern effects
-                if (characterData && characterData.speech_pattern) {
-                    switch(characterData.speech_pattern) {
-                        case 'short_blunt':
-                            utterance.rate = Math.max(0.8, utterance.rate - 0.2);
-                            break;
-                        case 'fast_energetic':
-                            utterance.rate = Math.min(2.2, utterance.rate + 0.3);
-                            break;
-                        case 'slow_mystical':
-                            utterance.rate = Math.max(0.3, utterance.rate - 0.4);
-                            break;
-                        case 'commanding_direct':
-                            utterance.rate = Math.max(0.7, utterance.rate - 0.1);
-                            utterance.volume = Math.min(1.0, utterance.volume + 0.1);
-                            break;
-                        case 'welcoming_helpful':
-                            utterance.rate = Math.min(1.8, utterance.rate + 0.2);
-                            break;
-                        case 'ancient_wise':
-                            utterance.rate = Math.max(0.2, utterance.rate - 0.5);
-                            break;
-                        case 'bold_confident':
-                            utterance.rate = Math.min(2.0, utterance.rate + 0.3);
-                            utterance.volume = Math.min(1.0, utterance.volume + 0.1);
-                            break;
-                        case 'quick_witty':
-                            utterance.rate = Math.min(2.3, utterance.rate + 0.4);
-                            break;
-                        case 'graceful_formal':
-                            utterance.rate = Math.min(1.4, utterance.rate + 0.1);
-                            break;
-                        case 'loud_authoritative':
-                            utterance.rate = Math.max(0.5, utterance.rate - 0.2);
-                            utterance.volume = Math.min(1.0, utterance.volume + 0.2);
-                            break;
-                    }
-                }
-
-                synthesis.speak(utterance);
-            }
-        }
-
-        // Character selection
-        document.querySelectorAll('.character-card').forEach(card => {
-            card.addEventListener('click', function() {
-                document.querySelectorAll('.character-card').forEach(c => c.classList.remove('selected'));
-                this.classList.add('selected');
-                selectedCharacter = this.dataset.character;
-                
-                addMessage('system', `Switched to ${this.querySelector('.name').textContent}!`);
-            });
-        });
-
-        // Model selection
-        document.getElementById('modelSelect').addEventListener('change', function() {
-            selectedModel = this.value;
-            addMessage('system', `Switched to model: ${this.value.split(' - ')[0]}!`);
-        });
-
-        // Voice controls
-        document.getElementById('voiceBtn').addEventListener('click', function() {
-            if (!isListening) {
-                startListening();
-            }
-        });
-
-        document.getElementById('stopVoiceBtn').addEventListener('click', function() {
-            stopListening();
-        });
-
-        // Send message
-        document.getElementById('sendButton').addEventListener('click', sendMessage);
-        document.getElementById('messageInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-
-        function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const message = input.value.trim();
-            
-            if (!message) return;
-            
-            addMessage('user', message);
-            input.value = '';
-            
-            document.getElementById('typingIndicator').classList.add('show');
-            
-            fetch('/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    message: message,
-                    character: selectedCharacter,
-                    model: selectedModel
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('typingIndicator').classList.remove('show');
-                
-                if (data.error) {
-                    addMessage('error', `Error: ${data.error}`);
-                } else {
-                    addMessage('bot', data.reply);
-                    
-                    // Speak the response if voice is enabled
-                    if (synthesis && !synthesis.speaking) {
-                        speakText(data.reply, selectedCharacter);
-                    }
-                }
-            })
-            .catch(error => {
-                document.getElementById('typingIndicator').classList.remove('show');
-                addMessage('error', `Connection error: ${error.message}`);
-            });
-        }
-
-        function addMessage(type, content) {
-            const messagesContainer = document.getElementById('chatMessages');
-            
-            const welcomeMessage = messagesContainer.querySelector('.welcome-message');
-            if (welcomeMessage) {
-                welcomeMessage.remove();
-            }
-            
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}`;
-            
-            let avatar = '🤖';
-            if (type === 'user') avatar = '👤';
-            else if (type === 'system') avatar = '⚙️';
-            else if (type === 'error') avatar = '❌';
-            
-            messageDiv.innerHTML = `
-                <div class="message-avatar">${avatar}</div>
-                <div class="message-content">${content}</div>
-            `;
-            
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        // Check API status
-        function checkStatus() {
-            fetch('/api/status')
-                .then(response => response.json())
-                .then(data => {
-                    const statusDiv = document.getElementById('status');
-                    if (data.status === 'online') {
-                        statusDiv.className = 'status online';
-                        statusDiv.textContent = '✅ API Online';
-                    } else {
-                        statusDiv.className = 'status offline';
-                        statusDiv.textContent = '❌ API Offline';
-                    }
-                })
-                .catch(() => {
-                    const statusDiv = document.getElementById('status');
-                    statusDiv.className = 'status offline';
-                    statusDiv.textContent = '❌ API Offline';
-                });
-        }
-
-        // Initialize
-        document.querySelector('.character-card[data-character="drogun"]').classList.add('selected');
-        initializeVoice();
-        checkStatus();
-        setInterval(checkStatus, 30000);
+        document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
 </body>
 </html> 
