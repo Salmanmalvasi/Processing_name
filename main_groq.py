@@ -44,6 +44,7 @@ class GenerateRequest(BaseModel):
     traits: str = Field(..., max_length=256)
     player_input: str = Field(..., max_length=512)
     conversation_history: Optional[List[ConversationTurn]] = Field(default=None, max_items=10)
+    model: Optional[str] = Field(default="llama3-8b-8192", max_length=32)  # Add model parameter
 
     @validator('character_name', 'character_type', 'traits', 'player_input')
     def no_prompt_injection(cls, v):
@@ -134,12 +135,9 @@ def build_system_prompt(request: GenerateRequest) -> str:
     return "\n".join(prompt_parts)
 
 # --- Groq API Call with Async Retry ---
-async def call_groq_api_with_retry(prompt: str) -> Optional[Dict[str, Any]]:
+async def call_groq_api_with_retry(prompt: str, model: str = "llama3-8b-8192") -> Optional[Dict[str, Any]]:
     global request_times
-    
-    # Rate limiting: respect 100 requests/minute for Groq
     current_time = time.time()
-    # Remove requests older than 1 minute
     request_times = [t for t in request_times if current_time - t < 60]
     
     if len(request_times) >= MAX_REQUESTS_PER_MINUTE:
@@ -161,7 +159,7 @@ async def call_groq_api_with_retry(prompt: str) -> Optional[Dict[str, Any]]:
                 }
                 
                 payload = {
-                    "model": "llama3-8b-8192",  # Fast Groq model
+                    "model": model,  # Use the specified model
                     "messages": [
                         {"role": "system", "content": "You are an AI assistant that roleplays as NPCs in a game."},
                         {"role": "user", "content": prompt}
@@ -193,9 +191,10 @@ async def call_groq_api_with_retry(prompt: str) -> Optional[Dict[str, Any]]:
 async def generate_dialogue(request: GenerateRequest):
     system_prompt = build_system_prompt(request)
     print(f"Generated Prompt:\n---\n{system_prompt}\n---")
+    print(f"Using Model: {request.model}")
     
     try:
-        api_result = await call_groq_api_with_retry(system_prompt)
+        api_result = await call_groq_api_with_retry(system_prompt, request.model)
         if not api_result:
             raise HTTPException(status_code=500, detail="Failed to get a response from the AI model after multiple retries.")
         
