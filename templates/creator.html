@@ -33,10 +33,17 @@
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
-            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #d3a625);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: magicalGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes magicalGlow {
+            from { filter: drop-shadow(0 0 5px #ffd700); }
+            to { filter: drop-shadow(0 0 15px #ffd700) drop-shadow(0 0 25px #ffed4e); }
         }
 
         .header p {
@@ -205,8 +212,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🧙‍♂️ Create Your Own Character</h1>
-            <p>Design and bring to life your own unique NPC character</p>
+            <h1>🏰 Create Your Own Hogwarts Character</h1>
+            <p>Design and bring to life your own unique magical character from the wizarding world</p>
         </div>
 
         <div id="alert-container"></div>
@@ -215,27 +222,27 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="name">Character Name *</label>
-                    <input type="text" id="name" name="name" required placeholder="e.g., Professor McGonagall">
+                    <input type="text" id="name" name="name" required placeholder="e.g., Professor McGonagall, Madam Pomfrey">
                 </div>
                 <div class="form-group">
                     <label for="type">Character Type *</label>
-                    <input type="text" id="type" name="type" required placeholder="e.g., Transfiguration Professor">
+                    <input type="text" id="type" name="type" required placeholder="e.g., Transfiguration Professor, Hogwarts Healer">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="traits">Personality & Traits *</label>
-                <textarea id="traits" name="traits" required placeholder="Describe their personality, speech patterns, and key characteristics..."></textarea>
+                <textarea id="traits" name="traits" required placeholder="Describe their personality, speech patterns, and key characteristics... (e.g., Strict but fair, loves cats, Scottish accent)"></textarea>
             </div>
 
             <div class="form-group">
                 <label for="backstory">Backstory</label>
-                <textarea id="backstory" name="backstory" placeholder="Optional: Their history, motivations, and background..."></textarea>
+                <textarea id="backstory" name="backstory" placeholder="Optional: Their history, motivations, and background... (e.g., Former Auror, lost family in war, dedicated to protecting students)"></textarea>
             </div>
 
             <div class="form-group">
                 <label for="speech_patterns">Speech Patterns</label>
-                <textarea id="speech_patterns" name="speech_patterns" placeholder="Optional: How they speak, catchphrases, accent, etc..."></textarea>
+                <textarea id="speech_patterns" name="speech_patterns" placeholder="Optional: How they speak, catchphrases, accent, etc... (e.g., Scottish accent, says 'Merlin's beard!', formal speech)"></textarea>
             </div>
 
             <div class="form-row">
@@ -263,13 +270,13 @@
             </div>
 
             <div class="buttons">
-                <button type="submit" class="btn" id="createBtn">Create Character</button>
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Back to Chat</button>
+                <button type="submit" class="btn" id="createBtn">Create Magical Character</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Back to Hogwarts Chat</button>
             </div>
         </form>
 
         <div class="nav-links">
-            <a href="/">← Back to Harry Potter NPC Chat</a>
+            <a href="/">← Back to Hogwarts NPC Chat</a>
         </div>
     </div>
 
