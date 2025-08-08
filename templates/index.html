@@ -172,6 +172,28 @@
             animation: pulse 1.5s infinite;
         }
 
+        .create-character-btn {
+            padding: 10px 12px;
+            background: linear-gradient(45deg, #9c27b0, #7b1fa2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .create-character-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
+        }
+
         /* Chat Area */
         .chat-container {
             background: var(--card-bg);
@@ -491,6 +513,7 @@
                     <option value="gemma2-9b-it">Gemma2-9B</option>
                 </select>
                 <button class="mic-button" id="micButton" title="Voice Input">🎤</button>
+                <a href="/creator" class="create-character-btn" title="Create Your Own Character">🎭</a>
             </div>
         </div>
 
@@ -521,7 +544,7 @@
 
     <script>
         // Character data with enhanced voice personalities
-        const characters = {
+        let characters = {
             "dumbledore": {
                 "name": "Albus Dumbledore",
                 "type": "Wise Headmaster",
@@ -1052,7 +1075,49 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', initializeApp);
+        // Load custom characters from server
+        async function loadCustomCharacters() {
+            try {
+                const response = await fetch('/api/characters/custom');
+                const customCharacters = await response.json();
+                
+                // Add custom characters to the characters object
+                Object.assign(characters, customCharacters);
+                
+                // Update character select dropdown
+                updateCharacterSelect();
+            } catch (error) {
+                console.log('No custom characters found or error loading them');
+            }
+        }
+
+        // Update character select dropdown
+        function updateCharacterSelect() {
+            const characterSelect = document.getElementById('characterSelect');
+            const currentValue = characterSelect.value;
+            
+            // Clear existing options
+            characterSelect.innerHTML = '';
+            
+            // Add all characters
+            Object.keys(characters).forEach(key => {
+                const character = characters[key];
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = `${character.emoji || '🎭'} ${character.name} - ${character.type}`;
+                characterSelect.appendChild(option);
+            });
+            
+            // Restore current selection if it still exists
+            if (characters[currentValue]) {
+                characterSelect.value = currentValue;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            loadCustomCharacters(); // Load custom characters
+        });
     </script>
 </body>
 </html> 

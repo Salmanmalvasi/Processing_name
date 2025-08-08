@@ -164,7 +164,14 @@ async def call_groq_api_with_retry(messages, model="llama3-8b-8192", max_retries
 
 def generate_prompt(character_name, character_type, traits, player_input, model, user_id="default"):
     """Generate the prompt for the AI model using detailed character templates and conversation history"""
+    # Check both predefined and custom characters
     character = CHARACTERS.get(character_name.lower(), {})
+    if not character:
+        # Check custom characters
+        for custom_id, custom_char in CUSTOM_CHARACTERS.items():
+            if custom_char.get('name', '').lower() == character_name.lower():
+                character = custom_char
+                break
     
     # Get conversation history for context
     history = get_conversation_history(character_name.lower(), user_id)
@@ -281,8 +288,11 @@ def chat():
         if not message:
             return jsonify({"error": "Message cannot be empty"}), 400
         
-        # Get character info
+        # Get character info (check both predefined and custom characters)
         character_info = CHARACTERS.get(character.lower(), {})
+        if not character_info and character.startswith('custom_'):
+            character_info = CUSTOM_CHARACTERS.get(character, {})
+        
         character_name = character_info.get('name', character)
         character_type = character_info.get('type', 'NPC')
         traits = character_info.get('traits', '')
@@ -316,8 +326,9 @@ def chat():
 
 @app.route('/api/characters')
 def get_characters():
-    """Get available characters"""
-    return jsonify(CHARACTERS)
+    """Get available characters (both predefined and custom)"""
+    all_characters = {**CHARACTERS, **CUSTOM_CHARACTERS}
+    return jsonify(all_characters)
 
 @app.route('/api/history/<character>/<user_id>')
 def get_history(character, user_id):
@@ -368,6 +379,79 @@ def demo_branching():
         }
     }
     return jsonify(scenarios)
+
+# Custom character storage
+CUSTOM_CHARACTERS = {}
+
+def create_custom_character(name, character_type, traits, backstory, speech_patterns, voice_settings):
+    """Create a custom character"""
+    character_id = f"custom_{name.lower().replace(' ', '_')}"
+    
+    custom_character = {
+        "name": name,
+        "type": character_type,
+        "traits": traits,
+        "backstory": backstory,
+        "speech_patterns": speech_patterns,
+        "voice_settings": voice_settings,
+        "prompt_template": f"""You are {name}, a {character_type}.
+Your personality and speech patterns: {traits}.
+Backstory: {backstory}
+Speech patterns: {speech_patterns}
+Stay strictly in character. Never reveal you are an AI or break the fourth wall.
+Always respond in the first person, using language and tone consistent with your traits."""
+    }
+    
+    CUSTOM_CHARACTERS[character_id] = custom_character
+    return character_id
+
+@app.route('/api/characters/custom', methods=['POST'])
+def create_character():
+    """Create a custom character"""
+    try:
+        data = request.get_json()
+        name = data.get('name', '').strip()
+        character_type = data.get('type', '').strip()
+        traits = data.get('traits', '').strip()
+        backstory = data.get('backstory', '').strip()
+        speech_patterns = data.get('speech_patterns', '').strip()
+        voice_settings = data.get('voice_settings', {})
+        
+        if not name or not character_type or not traits:
+            return jsonify({"error": "Name, type, and traits are required"}), 400
+        
+        character_id = create_custom_character(name, character_type, traits, backstory, speech_patterns, voice_settings)
+        
+        return jsonify({
+            "success": True,
+            "character_id": character_id,
+            "message": f"Character '{name}' created successfully!"
+        })
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/characters/custom', methods=['GET'])
+def get_custom_characters():
+    """Get all custom characters"""
+    return jsonify(CUSTOM_CHARACTERS)
+
+@app.route('/api/characters/custom/<character_id>', methods=['DELETE'])
+def delete_custom_character(character_id):
+    """Delete a custom character"""
+    if character_id in CUSTOM_CHARACTERS:
+        deleted_character = CUSTOM_CHARACTERS.pop(character_id)
+        return jsonify({
+            "success": True,
+            "message": f"Character '{deleted_character['name']}' deleted successfully!"
+        })
+    else:
+        return jsonify({"error": "Character not found"}), 404
+
+@app.route('/creator')
+def character_creator():
+    """Serve the character creator interface"""
+    return render_template('creator.html')
 
 @app.errorhandler(404)
 def not_found(error):
