@@ -3,426 +3,318 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏰 Hogwarts NPC Chat - Magical Conversations</title>
+    <title>AI Chat Interface</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap');
-        
-        :root {
-            /* Hogwarts House Colors */
-            --gryffindor-red: #740001;
-            --gryffindor-gold: #D3A625;
-            --slytherin-green: #1A472A;
-            --slytherin-silver: #5D5D5D;
-            --ravenclaw-blue: #0E1A40;
-            --ravenclaw-bronze: #946B2D;
-            --hufflepuff-yellow: #ECB939;
-            --hufflepuff-black: #372E29;
-            
-            /* Magical Theme Colors */
-            --hogwarts-gold: #FFD700;
-            --hogwarts-silver: #C0C0C0;
-            --dark-stone: #2C2C2C;
-            --warm-wood: #8B4513;
-            --magical-purple: #4B0082;
-            --spell-blue: #4169E1;
-            --fire-orange: #FF4500;
-            
-            /* UI Colors */
-            --bg-primary: #0A0A0A;
-            --bg-secondary: #1A1A1A;
-            --bg-card: rgba(26, 26, 26, 0.9);
-            --text-primary: #F5F5F5;
-            --text-secondary: #B8B8B8;
-            --accent-gold: var(--hogwarts-gold);
-            --accent-silver: var(--hogwarts-silver);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --bg-glass: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-primary: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-error: #ef4444;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
         body {
-            font-family: 'Crimson Text', serif;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(116, 0, 1, 0.4) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(26, 71, 42, 0.4) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(14, 26, 64, 0.4) 0%, transparent 50%),
-                radial-gradient(circle at 60% 60%, rgba(236, 185, 57, 0.3) 0%, transparent 50%),
-                linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             color: var(--text-primary);
+            min-height: 100vh;
             overflow-x: hidden;
-            position: relative;
             line-height: 1.6;
         }
 
-        /* Magical Background Effects */
-        body::before {
-            content: '';
+        /* Animated background */
+        .bg-animation {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="stars" patternUnits="userSpaceOnUse" width="100" height="100"><circle cx="20" cy="20" r="1" fill="%23FFD700" opacity="0.3"/><circle cx="80" cy="40" r="0.5" fill="%23C0C0C0" opacity="0.4"/><circle cx="40" cy="80" r="0.8" fill="%23FFD700" opacity="0.2"/><circle cx="90" cy="90" r="0.3" fill="%23C0C0C0" opacity="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23stars)"/></svg>');
-            pointer-events: none;
             z-index: -1;
+            opacity: 0.3;
         }
 
-        .app-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            padding: 0 20px;
-        }
-
-        /* Hogwarts Header */
-        .header {
-            background: 
-                linear-gradient(135deg, var(--gryffindor-red) 0%, var(--slytherin-green) 25%, var(--ravenclaw-blue) 50%, var(--hufflepuff-yellow) 75%, var(--gryffindor-red) 100%);
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 4px solid var(--accent-gold);
-            box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4);
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .header::before {
+        .bg-animation::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
-            animation: shimmer 3s infinite;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            animation: float 20s ease-in-out infinite;
         }
 
-        @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
+        .bg-animation::after {
+            content: '';
+            position: absolute;
+            top: 20%;
+            right: 10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-secondary) 0%, transparent 70%);
+            animation: float 15s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+            50% { transform: translate(-50%, -50%) translateY(-20px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            min-height: 100vh;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: 2rem;
+        }
+
+        /* Header */
+        .header {
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
         }
 
         .header h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 700;
-            color: var(--accent-gold);
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
-            margin-bottom: 15px;
-            position: relative;
-            z-index: 1;
-            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
         }
 
         .header p {
             font-size: 1.1rem;
-            color: var(--accent-silver);
-            font-style: italic;
-            position: relative;
-            z-index: 1;
+            color: var(--text-secondary);
+            font-weight: 400;
+            animation: fadeInUp 1s ease-out 0.2s both;
         }
 
-        /* House Crests */
-        .house-crests {
+        /* Controls */
+        .controls {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            align-items: end;
+        }
+
+        .control-group {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 15px 0;
-            position: relative;
-            z-index: 1;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
-        .house-crest {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            border: 2px solid var(--accent-gold);
-            background: rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .house-crest:hover {
-            transform: scale(1.2);
-            box-shadow: 0 0 20px var(--accent-gold);
-        }
-
-        /* Controls Section */
-        .controls-section {
-            background: var(--bg-card);
-            border: 2px solid var(--accent-gold);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 25px 0;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
-
-        .controls-section::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -1px;
-            right: -1px;
-            bottom: -1px;
-            background: linear-gradient(45deg, var(--accent-gold), var(--fire-orange), var(--accent-gold));
-            border-radius: 15px;
-            z-index: -1;
-            opacity: 0.2;
-        }
-
-        .character-info {
-            text-align: center;
-            margin-bottom: 25px;
-            padding: 20px;
-            background: rgba(255, 215, 0, 0.05);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-        }
-
-        .character-info h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 2.2rem;
-            color: var(--accent-gold);
-            margin-bottom: 8px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-            letter-spacing: 1px;
-        }
-
-        .character-info p {
-            color: var(--accent-silver);
-            font-style: italic;
-            font-size: 1.1rem;
-            margin-top: 5px;
-        }
-
-        .header-controls {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 20px;
+        .control-group label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .control-select {
             background: var(--bg-secondary);
-            border: 2px solid var(--accent-gold);
-            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             color: var(--text-primary);
-            padding: 15px 20px;
-            font-family: 'Crimson Text', serif;
-            font-size: 1rem;
-            cursor: pointer;
+            padding: 0.875rem 1rem;
+            font-family: inherit;
+            font-size: 0.875rem;
             transition: all 0.3s ease;
-            min-width: 200px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
         }
 
         .control-select:focus {
             outline: none;
-            border-color: var(--fire-orange);
-            box-shadow: 0 0 15px rgba(255, 69, 0, 0.3);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
-        .control-select option {
-            background: var(--bg-secondary);
+        .control-select:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            padding: 0.875rem 1.5rem;
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-color);
             color: var(--text-primary);
         }
 
-        .mic-button, .create-character-btn {
-            background: linear-gradient(45deg, var(--spell-blue), var(--magical-purple));
-            border: 2px solid var(--accent-gold);
-            border-radius: 50%;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.2rem;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-        }
-
-        .mic-button:hover, .create-character-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px var(--spell-blue);
-            border-color: var(--fire-orange);
-        }
-
-        .mic-button.recording {
-            background: linear-gradient(45deg, var(--fire-orange), #FF6347);
-            animation: pulse 1.5s infinite;
-        }
-
-        .create-character-btn {
-            background: linear-gradient(45deg, var(--magical-purple), var(--spell-blue));
-        }
-
-        /* Chat Container */
-        .chat-container {
+        .btn-secondary:hover {
             background: var(--bg-card);
-            border: 2px solid var(--accent-gold);
-            border-radius: 15px;
-            margin: 25px 0;
+            border-color: var(--accent-primary);
+        }
+
+        /* Chat container */
+        .chat-container {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
             flex: 1;
             overflow-y: auto;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            position: relative;
-            min-height: 400px;
-        }
-
-        .chat-container::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -1px;
-            right: -1px;
-            bottom: -1px;
-            background: linear-gradient(45deg, var(--accent-gold), var(--spell-blue), var(--accent-gold));
-            border-radius: 15px;
-            z-index: -1;
-            opacity: 0.15;
+            max-height: 600px;
+            animation: fadeInUp 1s ease-out 0.6s both;
         }
 
         .chat-container::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
 
         .chat-container::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
+            background: transparent;
         }
 
         .chat-container::-webkit-scrollbar-thumb {
-            background: var(--accent-gold);
-            border-radius: 10px;
+            background: var(--accent-primary);
+            border-radius: 3px;
         }
 
         .welcome-message {
             text-align: center;
-            padding: 40px;
-            background: linear-gradient(135deg, rgba(116, 0, 1, 0.1), rgba(26, 71, 42, 0.1));
-            border-radius: 15px;
-            border: 1px solid var(--accent-gold);
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.1);
-            position: relative;
-            margin-bottom: 20px;
+            padding: 3rem 2rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
         }
 
         .welcome-message h3 {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            color: var(--accent-gold);
-            margin-bottom: 18px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-            position: relative;
-            z-index: 1;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
         }
 
         .welcome-message p {
             color: var(--text-secondary);
-            font-size: 1.1rem;
-            line-height: 1.6;
+            font-size: 1rem;
         }
 
-        /* Message Styling */
+        /* Messages */
         .message {
-            display: flex;
-            margin-bottom: 20px;
-            animation: messageSlide 0.5s ease-out;
-            transform: translateY(20px);
-            opacity: 0;
-            animation-fill-mode: forwards;
+            margin-bottom: 1.5rem;
+            animation: slideIn 0.5s ease-out;
         }
 
         .message.user {
-            justify-content: flex-end;
-        }
-
-        .message.npc {
-            justify-content: flex-start;
+            text-align: right;
         }
 
         .message-bubble {
-            max-width: 75%;
-            padding: 20px 25px;
-            border-radius: 20px;
+            display: inline-block;
+            max-width: 70%;
+            padding: 1rem 1.5rem;
+            border-radius: 18px;
             position: relative;
             word-wrap: break-word;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            border: 1px solid var(--accent-gold);
-        }
-
-        .message-bubble:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
         }
 
         .message.user .message-bubble {
-            background: linear-gradient(135deg, var(--spell-blue), var(--magical-purple));
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             color: white;
             border-bottom-right-radius: 6px;
-            border-color: var(--spell-blue);
         }
 
         .message.npc .message-bubble {
-            background: linear-gradient(135deg, var(--gryffindor-red), var(--slytherin-green));
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
             color: var(--text-primary);
             border-bottom-left-radius: 6px;
-            border-color: var(--accent-gold);
         }
 
         .message-sender {
-            font-size: 0.8rem;
-            color: var(--accent-silver);
-            margin-bottom: 5px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
             font-weight: 500;
         }
 
         .message-content {
-            line-height: 1.4;
-            font-family: 'Crimson Text', serif;
+            line-height: 1.5;
         }
 
-        /* Typing Indicator */
+        /* Typing indicator */
         .typing-indicator {
             display: flex;
             align-items: center;
-            gap: 5px;
-            padding: 12px 18px;
-            background: linear-gradient(135deg, var(--gryffindor-red), var(--slytherin-green));
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-card);
             border-radius: 18px;
-            border-bottom-left-radius: 4px;
-            border: 1px solid var(--accent-gold);
+            border-bottom-left-radius: 6px;
+            border: 1px solid var(--border-color);
             max-width: 70%;
+            width: fit-content;
         }
 
         .typing-dot {
             width: 8px;
             height: 8px;
-            background: var(--accent-gold);
+            background: var(--accent-primary);
             border-radius: 50%;
             animation: typing 1.4s infinite ease-in-out;
         }
@@ -435,10 +327,78 @@
             40% { transform: scale(1); opacity: 1; }
         }
 
-        @keyframes messageSlide {
+        /* Input area */
+        .input-area {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .message-input {
+            flex: 1;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            padding: 1rem 1.5rem;
+            font-family: inherit;
+            font-size: 0.875rem;
+            resize: none;
+            min-height: 50px;
+            max-height: 120px;
+            transition: all 0.3s ease;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .message-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        /* Status */
+        .status {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            z-index: 1000;
+            animation: fadeInUp 1s ease-out 1s both;
+        }
+
+        .status.online {
+            border-color: var(--accent-success);
+            color: var(--accent-success);
+        }
+
+        .status.offline {
+            border-color: var(--accent-error);
+            color: var(--accent-error);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -446,392 +406,188 @@
             }
         }
 
-        /* Input Area */
-        .chat-input-area {
-            background: var(--bg-card);
-            border: 2px solid var(--accent-gold);
-            border-radius: 15px;
-            margin: 25px 0;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            position: relative;
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
-        .chat-input-area::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -1px;
-            right: -1px;
-            bottom: -1px;
-            background: linear-gradient(45deg, var(--accent-gold), var(--fire-orange), var(--accent-gold));
-            border-radius: 15px;
-            z-index: -1;
-            opacity: 0.15;
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+                gap: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .message-bubble {
+                max-width: 85%;
+            }
+
+            .status {
+                bottom: 1rem;
+                right: 1rem;
+            }
         }
 
-        .input-container {
-            display: flex;
-            gap: 20px;
-            align-items: flex-end;
-            margin-top: 10px;
+        /* Loading states */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
         }
 
-        .message-input {
-            flex: 1;
-            background: var(--bg-secondary);
-            border: 2px solid var(--accent-gold);
-            border-radius: 10px;
-            color: var(--text-primary);
-            padding: 15px;
-            font-family: 'Crimson Text', serif;
-            font-size: 1rem;
-            resize: none;
-            min-height: 50px;
-            max-height: 120px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .message-input:focus {
-            outline: none;
-            border-color: var(--fire-orange);
-            box-shadow: 0 0 15px rgba(255, 69, 0, 0.3);
-        }
-
-        .send-button {
-            background: linear-gradient(45deg, var(--fire-orange), #FF6347);
-            border: 2px solid var(--accent-gold);
-            border-radius: 10px;
-            color: white;
-            padding: 15px 25px;
-            font-family: 'Cinzel', serif;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 12px rgba(255, 69, 0, 0.2);
-        }
-
-        .send-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 69, 0, 0.4);
-        }
-
-        .send-button:disabled {
+        .btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
         }
 
-        /* Status */
-        .status {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: var(--bg-card);
-            border: 2px solid var(--accent-gold);
-            border-radius: 12px;
-            padding: 12px 18px;
-            font-family: 'Crimson Text', serif;
-            font-weight: 600;
-            font-size: 1rem;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-            z-index: 1000;
+        /* Hover effects */
+        .control-select:hover,
+        .message-input:hover {
+            border-color: var(--accent-primary);
         }
 
-        .status.online {
-            border-color: #28a745;
-            color: #28a745;
-        }
-
-        .status.offline {
-            border-color: #dc3545;
-            color: #dc3545;
-        }
-
-        /* Enhanced Animations */
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-3px); }
-        }
-
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 10px var(--accent-gold); }
-            50% { box-shadow: 0 0 20px var(--accent-gold), 0 0 30px var(--fire-orange); }
-        }
-
-        .house-crest {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .header-controls {
-            /* Removed aggressive glow animation */
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .header-controls {
-                flex-direction: column;
-            }
-            
-            .control-select {
-                min-width: 100%;
-            }
-            
-            .house-crests {
-                gap: 10px;
-            }
-            
-            .house-crest {
-                width: 30px;
-                height: 30px;
-                font-size: 1.2rem;
-            }
-        }
-
-        /* Magical Effects */
-        .magical-glow {
-            animation: magicalGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes magicalGlow {
-            from { box-shadow: 0 0 10px var(--accent-gold); }
-            to { box-shadow: 0 0 20px var(--accent-gold), 0 0 30px var(--fire-orange); }
+        /* Focus states */
+        .control-select:focus,
+        .message-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Hogwarts Header -->
-        <div class="header">
-            <h1>🏰 Hogwarts NPC Chat</h1>
-            <p>"It does not do to dwell on dreams and forget to live" - Albus Dumbledore</p>
-            <div class="house-crests">
-                <div class="house-crest">🦁</div>
-                <div class="house-crest">🐍</div>
-                <div class="house-crest">🦅</div>
-                <div class="house-crest">🦡</div>
-            </div>
-        </div>
+    <div class="bg-animation"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>AI Chat Interface</h1>
+            <p>Experience intelligent conversations with AI characters</p>
+        </header>
 
-        <!-- Controls Section -->
-        <div class="controls-section">
-            <div class="character-info">
-                <h2 id="characterName">Albus Dumbledore</h2>
-                <p id="characterType">Wise Headmaster</p>
-            </div>
-            <div class="header-controls">
-                <select class="control-select" id="characterSelect">
-                    <option value="dumbledore">✨ Albus Dumbledore - Wise Headmaster</option>
-                    <option value="filch">🧹 Argus Filch - Gruff Caretaker</option>
-                    <option value="snape">🐍 Severus Snape - Mysterious Potions Master</option>
-                    <option value="hermione">🦁 Hermione Granger - Brilliant Student</option>
-                    <option value="luna">🌼 Luna Lovegood - Dreamy Ravenclaw</option>
-                    <option value="voldemort">🧛 Lord Voldemort - Dark Lord</option>
-                    <option value="harry">🦉 Harry Potter - The Boy Who Lived</option>
-                    <option value="bellatrix">⚔️ Bellatrix Lestrange - Fierce Death Eater</option>
-                    <option value="hagrid">🐉 Rubeus Hagrid - Half-Giant Gamekeeper</option>
-                    <option value="draco">🦉 Draco Malfoy - Arrogant Slytherin</option>
-                </select>
-                <select class="control-select" id="modelSelect">
-                    <option value="llama3-8b-8192">Llama3-8B</option>
-                    <option value="llama3-70b-8192">Llama3-70B</option>
-                    <option value="gemma2-9b-it">Gemma2-9B</option>
-                </select>
-                <button class="mic-button" id="micButton" title="Voice Input">🎤</button>
-                <a href="/creator" class="create-character-btn" title="Create Your Own Character">🎭</a>
-            </div>
-        </div>
+        <!-- Controls -->
+        <section class="controls">
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label for="characterSelect">Character</label>
+                    <select class="control-select" id="characterSelect">
+                        <option value="dumbledore">✨ Albus Dumbledore - Wise Headmaster</option>
+                        <option value="filch">🧹 Argus Filch - Gruff Caretaker</option>
+                        <option value="snape">🐍 Severus Snape - Mysterious Potions Master</option>
+                        <option value="hermione">🦁 Hermione Granger - Brilliant Student</option>
+                        <option value="luna">🌼 Luna Lovegood - Dreamy Ravenclaw</option>
+                        <option value="voldemort">🧛 Lord Voldemort - Dark Lord</option>
+                        <option value="harry">🦉 Harry Potter - The Boy Who Lived</option>
+                        <option value="bellatrix">⚔️ Bellatrix Lestrange - Fierce Death Eater</option>
+                        <option value="hagrid">🐉 Rubeus Hagrid - Half-Giant Gamekeeper</option>
+                        <option value="draco">🦉 Draco Malfoy - Arrogant Slytherin</option>
+                    </select>
+                </div>
 
-        <!-- Chat Messages -->
-        <div class="chat-container" id="chatContainer">
+                <div class="control-group">
+                    <label for="modelSelect">AI Model</label>
+                    <select class="control-select" id="modelSelect">
+                        <option value="llama3-8b-8192">Llama3-8B</option>
+                        <option value="llama3-70b-8192">Llama3-70B</option>
+                        <option value="gemma2-9b-it">Gemma2-9B</option>
+                    </select>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn" id="micButton" title="Voice Input">
+                        🎤 Voice
+                    </button>
+                    <a href="/creator" class="btn btn-secondary" title="Create Character">
+                        🎭 Create
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chat Container -->
+        <main class="chat-container" id="chatContainer">
             <div class="welcome-message">
-                <h3>🏰 Welcome to Hogwarts!</h3>
-                <p>Choose a character from the magical halls of Hogwarts and begin your enchanted conversation. You can type your messages or use the microphone to speak with the voice of magic.</p>
+                <h3>🚀 Welcome to AI Chat!</h3>
+                <p>Choose a character and start your conversation. You can type messages or use voice input for a hands-free experience.</p>
             </div>
-        </div>
+        </main>
 
-        <!-- Chat Input -->
-        <div class="chat-input-area">
+        <!-- Input Area -->
+        <section class="input-area">
             <div class="input-container">
                 <textarea 
                     class="message-input" 
                     id="messageInput" 
-                    placeholder="Cast your message into the magical realm..." 
+                    placeholder="Type your message here..." 
                     rows="1"
                 ></textarea>
-                <button class="send-button" id="sendButton">Send</button>
+                <button class="btn" id="sendButton">Send</button>
             </div>
-        </div>
+        </section>
     </div>
 
     <!-- Status Indicator -->
     <div class="status" id="status">🟢 Online</div>
 
     <script>
-        // Character data with enhanced voice personalities
-        let characters = {
-            "dumbledore": {
-                "name": "Albus Dumbledore",
-                "type": "Wise Headmaster",
-                "traits": "Wise, gentle, whimsical, mysterious. Speaks with gentle wisdom, occasionally quoting profound truths in a poetic way. Rarely direct—responses are thoughtful and layered with meaning. Maintains calm and slightly amused demeanor.",
-                "emoji": "✨",
-                "voice_rate": 90,
-                "voice_pitch": 0.5,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.ralph",
-                "voice_style": "ancient_mystical"
-            },
-            "filch": {
-                "name": "Argus Filch",
-                "type": "Gruff Caretaker",
-                "traits": "Grumpy, bitter, strict, obsessed with rules. Hates students running in halls or causing trouble. Speaks in gruff, annoyed tone, constantly muttering about messes and how much better things would be with more power. Always mentions Mrs. Norris if threatened.",
-                "emoji": "🧹",
-                "voice_rate": 135,
-                "voice_pitch": 0.7,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.daniel",
-                "voice_style": "grumpy_impatient"
-            },
-            "snape": {
-                "name": "Severus Snape",
-                "type": "Mysterious Potions Master",
-                "traits": "Cold, sarcastic, calculating. Speaks in slow, deliberate, intimidating tone. Uses dry wit and sarcasm. Always acts as if the person is wasting time, unless they show exceptional intelligence or respect for Dark Arts or Potions.",
-                "emoji": "🐍",
-                "voice_rate": 105,
-                "voice_pitch": 0.8,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.fred",
-                "voice_style": "mysterious_wise"
-            },
-            "hermione": {
-                "name": "Hermione Granger",
-                "type": "Brilliant Student",
-                "traits": "Intelligent, enthusiastic about learning, slightly bossy. Precise, knowledgeable, passionate about books and spells. Explains things in detail and often corrects others politely but firmly. Always eager to help others learn, but disapproves of rule-breaking.",
-                "emoji": "🦁",
-                "voice_rate": 180,
-                "voice_pitch": 1.4,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.karen",
-                "voice_style": "friendly_warm"
-            },
-            "luna": {
-                "name": "Luna Lovegood",
-                "type": "Dreamy Ravenclaw",
-                "traits": "Dreamy, eccentric, kind-hearted. Speaks in a dreamy, ethereal tone with slight confusion. Often mentions creatures that may or may not exist. Very accepting and non-judgmental. Sometimes seems to be in her own world but is actually quite perceptive.",
-                "emoji": "🌼",
-                "voice_rate": 120,
-                "voice_pitch": 1.2,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.samantha",
-                "voice_style": "dreamy_ethereal"
-            },
-            "voldemort": {
-                "name": "Lord Voldemort",
-                "type": "Dark Lord",
-                "traits": "Cold, calculating, power-hungry. Speaks in a slow, deliberate, intimidating manner. Uses formal language and often refers to himself in third person. Shows no mercy or compassion. Always seeks to dominate and control.",
-                "emoji": "🧛",
-                "voice_rate": 85,
-                "voice_pitch": 0.6,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.tom",
-                "voice_style": "dark_intimidating"
-            },
-            "harry": {
-                "name": "Harry Potter",
-                "type": "The Boy Who Lived",
-                "traits": "Brave, loyal, determined. Speaks with courage and determination, but also shows vulnerability. Often questions authority and stands up for what's right. Has a dry sense of humor and doesn't like being famous.",
-                "emoji": "🦉",
-                "voice_rate": 150,
-                "voice_pitch": 1.0,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.alex",
-                "voice_style": "brave_determined"
-            },
-            "bellatrix": {
-                "name": "Bellatrix Lestrange",
-                "type": "Fierce Death Eater",
-                "traits": "Crazy, fanatical, dangerous. Speaks with manic energy and obsession. Completely devoted to Voldemort and the Dark Arts. Shows no remorse and enjoys causing pain. Often laughs maniacally.",
-                "emoji": "⚔️",
-                "voice_rate": 160,
-                "voice_pitch": 1.3,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.victoria",
-                "voice_style": "manic_dangerous"
-            },
-            "hagrid": {
-                "name": "Rubeus Hagrid",
-                "type": "Half-Giant Gamekeeper",
-                "traits": "Loyal, kind-hearted, but not very bright. Speaks in a rough, uneducated manner with poor grammar. Very protective of magical creatures and students. Often gets emotional and uses simple, direct language.",
-                "emoji": "🐉",
-                "voice_rate": 110,
-                "voice_pitch": 0.9,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.bruce",
-                "voice_style": "rough_kind"
-            },
-            "draco": {
-                "name": "Draco Malfoy",
-                "type": "Arrogant Slytherin",
-                "traits": "Arrogant, prejudiced, cowardly. Speaks with superiority and disdain. Often insults others and brags about his family's wealth and status. Becomes more complex and conflicted as the series progresses.",
-                "emoji": "🦉",
-                "voice_rate": 140,
-                "voice_pitch": 1.1,
-                "voice_volume": 1.0,
-                "voice_id": "com.apple.speech.synthesis.voice.daniel",
-                "voice_style": "arrogant_superior"
-            }
+        // Character data
+        const characters = {
+            "dumbledore": { name: "Albus Dumbledore", type: "Wise Headmaster", emoji: "✨" },
+            "filch": { name: "Argus Filch", type: "Gruff Caretaker", emoji: "🧹" },
+            "snape": { name: "Severus Snape", type: "Mysterious Potions Master", emoji: "🐍" },
+            "hermione": { name: "Hermione Granger", type: "Brilliant Student", emoji: "🦁" },
+            "luna": { name: "Luna Lovegood", type: "Dreamy Ravenclaw", emoji: "🌼" },
+            "voldemort": { name: "Lord Voldemort", type: "Dark Lord", emoji: "🧛" },
+            "harry": { name: "Harry Potter", type: "The Boy Who Lived", emoji: "🦉" },
+            "bellatrix": { name: "Bellatrix Lestrange", type: "Fierce Death Eater", emoji: "⚔️" },
+            "hagrid": { name: "Rubeus Hagrid", type: "Half-Giant Gamekeeper", emoji: "🐉" },
+            "draco": { name: "Draco Malfoy", type: "Arrogant Slytherin", emoji: "🦉" }
         };
-
-        // Available AI models
-        const models = [
-            "llama3-8b-8192",
-            "llama3-70b-8192", 
-            "gemma2-9b-it"
-        ];
 
         // Speech recognition
         let recognition = null;
 
-        // Initialize the application
-        function initializeApp() {
-            initializeSpeechRecognition();
+        // Initialize app
+        function init() {
             setupEventListeners();
-            loadCharacters();
+            setupSpeechRecognition();
             checkStatus();
-            setInterval(checkStatus, 30000); // Check status every 30 seconds
+            setInterval(checkStatus, 30000);
         }
 
         function setupEventListeners() {
             // Character selection
             document.getElementById('characterSelect').addEventListener('change', (e) => {
-                const character = e.target.value;
-                updateCharacterInfo(character);
-            });
-
-            // Model selection
-            document.getElementById('modelSelect').addEventListener('change', (e) => {
-                console.log('Model changed to:', e.target.value);
+                updateCharacterInfo(e.target.value);
             });
 
             // Send button
             document.getElementById('sendButton').addEventListener('click', sendMessage);
 
-            // Enter key in input
+            // Enter key
             document.getElementById('messageInput').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -845,79 +601,58 @@
                 this.style.height = Math.min(this.scrollHeight, 120) + 'px';
             });
 
-            // Microphone button
-            document.getElementById('micButton').addEventListener('click', toggleSpeechRecognition);
-        }
-
-        function loadCharacters() {
-            const characterSelect = document.getElementById('characterSelect');
-            characterSelect.innerHTML = '';
-            
-            Object.keys(characters).forEach(key => {
-                const character = characters[key];
-                const option = document.createElement('option');
-                option.value = key;
-                option.textContent = `${character.emoji} ${character.name} - ${character.type}`;
-                characterSelect.appendChild(option);
-            });
+            // Microphone
+            document.getElementById('micButton').addEventListener('click', toggleVoice);
         }
 
         function updateCharacterInfo(characterKey) {
             const character = characters[characterKey];
             if (character) {
-                document.getElementById('characterName').textContent = character.name;
-                document.getElementById('characterType').textContent = character.type;
+                console.log(`Selected: ${character.name}`);
             }
         }
 
         async function sendMessage() {
-            const messageInput = document.getElementById('messageInput');
-            const message = messageInput.value.trim();
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
             
             if (!message) return;
 
             const character = document.getElementById('characterSelect').value;
             const model = document.getElementById('modelSelect').value;
 
-            // Add user message to chat
+            // Add user message
             addMessage('You', message, 'user');
-            messageInput.value = '';
-            messageInput.style.height = 'auto';
+            input.value = '';
+            input.style.height = 'auto';
 
-            // Show typing indicator
-            showTypingIndicator();
+            // Show typing
+            showTyping();
 
             try {
                 const response = await fetch('/chat', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        character: character,
-                        model: model
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message, character, model })
                 });
 
                 const data = await response.json();
-                hideTypingIndicator();
+                hideTyping();
 
                 if (data.error) {
                     addMessage('System', `Error: ${data.error}`, 'system');
                 } else {
                     const characterName = characters[character]?.name || character;
                     addMessage(characterName, data.reply, 'npc');
-                    speakText(data.reply, character);
                 }
             } catch (error) {
-                hideTypingIndicator();
+                hideTyping();
                 addMessage('System', 'Connection error. Please try again.', 'system');
             }
         }
 
         function addMessage(sender, content, type) {
-            const chatContainer = document.getElementById('chatContainer');
+            const container = document.getElementById('chatContainer');
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${type}`;
             
@@ -928,12 +663,12 @@
                 </div>
             `;
             
-            chatContainer.appendChild(messageDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
         }
 
-        function showTypingIndicator() {
-            const chatContainer = document.getElementById('chatContainer');
+        function showTyping() {
+            const container = document.getElementById('chatContainer');
             const typingDiv = document.createElement('div');
             typingDiv.className = 'message npc';
             typingDiv.id = 'typingIndicator';
@@ -946,185 +681,49 @@
                 </div>
             `;
             
-            chatContainer.appendChild(typingDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            container.appendChild(typingDiv);
+            container.scrollTop = container.scrollHeight;
         }
 
-        function hideTypingIndicator() {
-            const typingIndicator = document.getElementById('typingIndicator');
-            if (typingIndicator) {
-                typingIndicator.remove();
-            }
+        function hideTyping() {
+            const typing = document.getElementById('typingIndicator');
+            if (typing) typing.remove();
         }
 
-        function speakText(text, characterKey) {
-            if ('speechSynthesis' in window) {
-                const character = characters[characterKey];
-                if (!character) return;
-
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.rate = character.voice_rate / 100;
-                utterance.pitch = character.voice_pitch;
-                utterance.volume = character.voice_volume;
-
-                // Try to find a suitable voice
-                const voices = speechSynthesis.getVoices();
-                let targetVoice = findBestVoice(voices, character);
-
-                if (targetVoice) {
-                    utterance.voice = targetVoice;
-                }
-
-                speechSynthesis.speak(utterance);
-            }
-        }
-
-        function findBestVoice(voices, character) {
-            let targetVoice = null;
-
-            // Try to find voice by ID first
-            if (character.voice_id) {
-                targetVoice = voices.find(voice => voice.voiceURI === character.voice_id);
-            }
-
-            // If not found, try to match by character style
-            if (!targetVoice) {
-                switch (character.voice_style) {
-                    case 'ancient_mystical':
-                        // Deep, wise voice for Dumbledore
-                        targetVoice = voices.find(voice => 
-                            voice.lang.startsWith('en') && 
-                            (voice.name.toLowerCase().includes('ralph') ||
-                             voice.name.toLowerCase().includes('fred'))
-                        );
-                        break;
-                        
-                    case 'grumpy_impatient':
-                        // Rough, older voice for Filch
-                        targetVoice = voices.find(voice => 
-                            voice.lang.startsWith('en') && 
-                            (voice.name.toLowerCase().includes('daniel') ||
-                             voice.name.toLowerCase().includes('bruce'))
-                        );
-                        break;
-                        
-                    case 'mysterious_wise':
-                        // Cold, calculating voice for Snape
-                        targetVoice = voices.find(voice => 
-                            voice.lang.startsWith('en') && 
-                            (voice.name.toLowerCase().includes('fred') ||
-                             voice.name.toLowerCase().includes('ralph'))
-                        );
-                        break;
-                        
-                    case 'friendly_warm':
-                        // Bright, enthusiastic voice for Hermione
-                        targetVoice = voices.find(voice => 
-                            voice.lang.startsWith('en') && 
-                            (voice.name.toLowerCase().includes('karen') ||
-                             voice.name.toLowerCase().includes('samantha'))
-                        );
-                        break;
-                        
-                    case 'dreamy_ethereal':
-                        // Soft, dreamy voice for Luna
-                        targetVoice = voices.find(voice => 
-                            voice.lang.startsWith('en') && 
-                            (voice.name.toLowerCase().includes('samantha') ||
-                             voice.name.toLowerCase().includes('karen'))
-                        );
-                        break;
-                        
-                    case 'dark_intimidating':
-                        // Deep, menacing voice for Voldemort
-                        targetVoice = voices.find(voice => 
-                            voice.lang.startsWith('en') && 
-                            (voice.name.toLowerCase().includes('tom') ||
-                             voice.name.toLowerCase().includes('ralph'))
-                        );
-                        break;
-                        
-                    case 'brave_determined':
-                        // Young, confident voice for Harry
-                        targetVoice = voices.find(voice => 
-                            voice.lang.startsWith('en') && 
-                            (voice.name.toLowerCase().includes('alex') ||
-                             voice.name.toLowerCase().includes('daniel'))
-                        );
-                        break;
-                        
-                    case 'manic_dangerous':
-                        // High-pitched, energetic voice for Bellatrix
-                        targetVoice = voices.find(voice => 
-                            voice.lang.startsWith('en') && 
-                            (voice.name.toLowerCase().includes('victoria') ||
-                             voice.name.toLowerCase().includes('karen'))
-                        );
-                        break;
-                        
-                    case 'rough_kind':
-                        // Deep, rough voice for Hagrid
-                        targetVoice = voices.find(voice => 
-                            voice.lang.startsWith('en') && 
-                            (voice.name.toLowerCase().includes('bruce') ||
-                             voice.name.toLowerCase().includes('daniel'))
-                        );
-                        break;
-                        
-                    case 'arrogant_superior':
-                        // Posh, arrogant voice for Draco
-                        targetVoice = voices.find(voice => 
-                            voice.lang.startsWith('en') && 
-                            (voice.name.toLowerCase().includes('daniel') ||
-                             voice.name.toLowerCase().includes('alex'))
-                        );
-                        break;
-                }
-            }
-            
-            // Final fallback to any English voice
-            if (!targetVoice) {
-                targetVoice = voices.find(voice => voice.lang.startsWith('en'));
-            }
-            
-            return targetVoice;
-        }
-
-        function initializeSpeechRecognition() {
+        function setupSpeechRecognition() {
             if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
                 recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
                 recognition.continuous = false;
                 recognition.interimResults = false;
                 recognition.lang = 'en-US';
 
-                recognition.onstart = function() {
-                    document.getElementById('micButton').classList.add('recording');
+                recognition.onstart = () => {
+                    document.getElementById('micButton').classList.add('loading');
                 };
 
-                recognition.onresult = function(event) {
+                recognition.onresult = (event) => {
                     const transcript = event.results[0][0].transcript;
                     document.getElementById('messageInput').value = transcript;
-                    document.getElementById('micButton').classList.remove('recording');
+                    document.getElementById('micButton').classList.remove('loading');
                     sendMessage();
                 };
 
-                recognition.onerror = function(event) {
-                    console.error('Speech recognition error:', event.error);
-                    document.getElementById('micButton').classList.remove('recording');
+                recognition.onerror = () => {
+                    document.getElementById('micButton').classList.remove('loading');
                 };
 
-                recognition.onend = function() {
-                    document.getElementById('micButton').classList.remove('recording');
+                recognition.onend = () => {
+                    document.getElementById('micButton').classList.remove('loading');
                 };
             } else {
                 document.getElementById('micButton').disabled = true;
-                document.getElementById('micButton').title = 'Speech recognition not supported';
+                document.getElementById('micButton').title = 'Voice not supported';
             }
         }
 
-        function toggleSpeechRecognition() {
+        function toggleVoice() {
             if (!recognition) {
-                alert('Speech recognition not supported in your browser');
+                alert('Voice recognition not supported');
                 return;
             }
             recognition.start();
@@ -1134,57 +733,18 @@
             try {
                 const response = await fetch('/api/status');
                 const data = await response.json();
-                document.getElementById('status').textContent = data.status === 'online' ? '🟢 Online' : '🔴 Offline';
-                document.getElementById('status').className = `status ${data.status === 'online' ? 'online' : 'offline'}`;
+                const statusEl = document.getElementById('status');
+                statusEl.textContent = data.status === 'online' ? '🟢 Online' : '🔴 Offline';
+                statusEl.className = `status ${data.status === 'online' ? 'online' : 'offline'}`;
             } catch (error) {
-                document.getElementById('status').textContent = '🔴 Offline';
-                document.getElementById('status').className = 'status offline';
+                const statusEl = document.getElementById('status');
+                statusEl.textContent = '🔴 Offline';
+                statusEl.className = 'status offline';
             }
         }
 
-        // Load custom characters from server
-        async function loadCustomCharacters() {
-            try {
-                const response = await fetch('/api/characters/custom');
-                const customCharacters = await response.json();
-                
-                // Add custom characters to the characters object
-                Object.assign(characters, customCharacters);
-                
-                // Update character select dropdown
-                updateCharacterSelect();
-            } catch (error) {
-                console.log('No custom characters found or error loading them');
-            }
-        }
-
-        // Update character select dropdown
-        function updateCharacterSelect() {
-            const characterSelect = document.getElementById('characterSelect');
-            const currentValue = characterSelect.value;
-            
-            // Clear existing options
-            characterSelect.innerHTML = '';
-            
-            // Add all characters
-            Object.keys(characters).forEach(key => {
-                const character = characters[key];
-                const option = document.createElement('option');
-                option.value = key;
-                option.textContent = `${character.emoji || '🎭'} ${character.name} - ${character.type}`;
-                characterSelect.appendChild(option);
-            });
-            
-            // Restore current selection if it still exists
-            if (characters[currentValue]) {
-                characterSelect.value = currentValue;
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeApp();
-            loadCustomCharacters(); // Load custom characters
-        });
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html> 
